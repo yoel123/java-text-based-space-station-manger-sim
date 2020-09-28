@@ -9,7 +9,7 @@ the games exe is in the release folder.
 
 # About the project
 
-##the "big idea" or "what is it for":
+### the "big idea" or "what is it for":
 
 to put it simple, I created this project so beginner programmers
 can practice working in a team, and practice their programming skills.
@@ -41,6 +41,7 @@ proper indie game marketing I can show you stuff most people don't do
 and easy to work with/get into.
 if you want todo writing/, marketing you can just join ill show you the rest.
 
+*does it have documentation: [yes](https://github.com/yoel123/java-text-based-space-station-manger-sim/wiki) its wip.
 
 *How to join? hers a contact form:
 

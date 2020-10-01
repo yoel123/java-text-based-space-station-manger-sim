@@ -15,6 +15,8 @@ public class player {
 	double tax_rate = 0.05;
 	boolean taxes_problem;
 	
+	int cargo=0,cargo_limit = 500;
+	
 	public player() {
 		
 		items = new ArrayList<item>();
@@ -32,6 +34,9 @@ public class player {
 		//check if theres enough credits and the amount is not bigger then
 		//Available amount
 		if(cost > credits || amount > it.amount) {return false;}
+		
+		//if no room in cargo
+		if((amount+cargo)>cargo_limit) {return false;}
 		
 		//get item from arraylisr
 		item my_it = get_item(it.name);
@@ -52,7 +57,8 @@ public class player {
 		}
 		it.amount -=amount;
 		credits -= cost*amount;
-		
+		//add to cargo amount
+		cargo+=amount;
 		return true;
 	}//end buy
 	
@@ -72,6 +78,8 @@ public class player {
 		
 		my_it.amount -= amount;//reduce amount from player item
 		it.amount += amount;//add amount to market item
+		//reduce cargo amount
+		cargo-=amount;
 		return true;
 	}
 	
@@ -101,7 +109,7 @@ public class player {
 	public String show_stats()
 	{
 	
-		return "cerdits: "+credits;
+		return "cerdits: "+credits+" cargo space:"+cargo+"/"+cargo_limit;
 	}//end show_stats
 	
 	public void add_taxes(int earnings) 

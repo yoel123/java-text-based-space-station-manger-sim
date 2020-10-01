@@ -2,6 +2,7 @@ package main;
 
 import helpers.C;
 import helpers.C.GUIConsoleIO;
+import helpers.S;
 import helpers.gmenu_manger;
 import screens.game_main;
 import screens.mangment_screen;

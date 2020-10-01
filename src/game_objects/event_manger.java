@@ -53,6 +53,7 @@ public class event_manger {
 		{
 			cio.println("test works");
 		}
+		
 		if(action.equals("smuglers_sell")) 
 		{
 			
@@ -95,7 +96,7 @@ public class event_manger {
 					cio.println("the police catchs on to your illigal deal and fines you for: "+fine);
 					game_manger.p.credits -= fine;
 				}
-			}
+			}//end if y
 			
 			
 			

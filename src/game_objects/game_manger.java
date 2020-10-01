@@ -22,6 +22,7 @@ public class game_manger {
 		event_db.gen_events();
 		//init upgrades
 		upgrades_db.gen_upgrades();
+		
 		//init market
 		m = new market(item_db.db);
 		m.supply_and_demend_gen();

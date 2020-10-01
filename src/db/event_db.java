@@ -15,5 +15,6 @@ public class event_db {
 		db.put("currupt_genral","smuglers_sell,0,currupt genral");
 		db.put("shady_dude","smuglers_sell,0,shady dude");
 		db.put("price_rize","price_rize,2,item price rise,immediate");
+		
 	}//end gen_star_systems
 }

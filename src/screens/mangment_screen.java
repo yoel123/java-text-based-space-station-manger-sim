@@ -48,9 +48,11 @@ public class mangment_screen extends gconsole_menu {
 		if(next.equals("2")) {show_upgrades() ;}
 		
 		//insurance
-				if(next.equals("3")) {buy_insurence() ;}
+		if(next.equals("3")) {buy_insurence() ;}
 		//taxes
 		if(next.equals("4")) {pay_taxes() ;}
+		
+		//if(messge != "") {messge="";}
 		
 		
 	}//end menu_user_input
@@ -97,7 +99,7 @@ public class mangment_screen extends gconsole_menu {
 		player p = game_manger.p;
 		if(p.insurance) 
 		{
-			cio.println("--already has insurence--");
+			messge="--already has insurance--";
 		}
 		else 
 		{
@@ -108,11 +110,11 @@ public class mangment_screen extends gconsole_menu {
 			{
 				p.credits -= p.insurance_rate;
 				p.insurance = true;
-				cio.println("insurence bought");
+				messge = "--insurance bought--";
 			}
 			else 
 			{
-				cio.println("couldent buy insurence");
+				messge = "--couldn't buy insurance--";
 			}
 		}
 	}//end buy_insurence

@@ -30,6 +30,7 @@ public class gconsole_menu {
 	
 	public void update() 
 	{
+		cio.clear();
 		menu_show() ;
 		menu_user_input();
 	}//end update
@@ -44,6 +45,7 @@ public class gconsole_menu {
 			cio.println(i+") "+item,pc);
 			i++;
 		}
+		if(messge!="") {messge="";}
 	}//end menu_show
 	
 	public void menu_user_input() 
@@ -67,4 +69,7 @@ public class gconsole_menu {
 		cio.println(o,pc);
 	}//end yp
 	
+	
 }
+
+

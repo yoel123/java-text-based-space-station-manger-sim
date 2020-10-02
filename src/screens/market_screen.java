@@ -78,9 +78,11 @@ public class market_screen extends gconsole_menu {
 		{
 			//itp.amount+=amount;//return items to market 
 			S.o("sucesffuly sold items");
+			messge = "succesfully sold items";
 		}else 
 		{
 			S.o("failed to sell items");
+			messge = "failed to sell items";
 		}
 	}
 
@@ -100,9 +102,11 @@ public class market_screen extends gconsole_menu {
 		{
 		
 			S.o("sucesffuly purchesed items");
+			messge = "succesfully bought items";
 		}else 
 		{
 			S.o("failed to purchese items");
+			messge = "failed to buy items";
 		}
 	}//end do_buy
 	

@@ -96,9 +96,9 @@ public class event_manger {
 				//check if busted
 				if(rnd2>8) 
 				{
-					cio.println("the police catchs on to your illigal deal and fines you for: "+fine);
+					cio.println(" the police catchs on to your illigal deal and fines you for: "+fine);
 					game_manger.p.credits -= fine;
-					messge += "the police catchs on to your illigal deal and fines you for: " + fine;
+					messge += " the police catchs on to your illigal deal and fines you for: " + fine;
 				}
 			}//end if y
 			

@@ -54,7 +54,7 @@ public class game_main extends gconsole_menu {
 		if(next.equals("3")) {show_events();}
 		
 		//pass turn
-		if(next.equals("4")) {game_manger.pass_turn();}
+		if(next.equals("4")) {game_manger.pass_turn(); messge ="passed turn";}
 		
 		
 	}//end menu_user_input
@@ -70,7 +70,7 @@ public class game_main extends gconsole_menu {
 		}
 		
 		int number_of_options = events.size();
-				
+		//sl_e = selected events		
 		int sel_e = ui.get_int("resolve event(0 to go back)");
 		
 		//exit if 0

@@ -88,8 +88,12 @@ public class mangment_screen extends gconsole_menu {
 		cio.println("taxes you owe:" +p.taxes_owed);
 		
 		int amount_to_pay = ui.get_int("how much would you like to pay? (0 to exit)");
-		if(amount_to_pay ==0) {return;}
+		if(amount_to_pay ==0 || amount_to_pay<0) {return;}
+		
 		p.pay_taxes(amount_to_pay);
+		
+		messge ="taxes paid:" +amount_to_pay;
+		
 	}//end pay_taxes
 
 

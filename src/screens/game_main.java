@@ -68,15 +68,19 @@ public class game_main extends gconsole_menu {
 			S.o(i+") "+e);
 			i++;
 		}
+		if(events.size() ==0) {return;}//no events go back
 		
+		//select event to resolve
 		int sel_e = ui.get_int("resolve event(0 to go back)");
 		
 		//exit if 0
-		if(sel_e ==0) {return;}
+		if(sel_e ==0) {cio.clear(); return;}
 		
 		sel_e--;//deincrament so i can get the event from the arraylist
 		
+		//get event as string
 		String se = events.get(sel_e);
+		
 		//if event was immidiate (meaning no player choice so dont use do event
 		if(se.contains("**")) 
 		{

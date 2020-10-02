@@ -1,10 +1,11 @@
 package game_objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import helpers.S;
 
-public class player {
+public class player implements Serializable{
 	
 	public int credits;
 	public ArrayList<item> items;
@@ -17,12 +18,15 @@ public class player {
 	
 	int cargo=0,cargo_limit = 500;
 	
+	public  int turn;
+	
 	public player() {
 		
 		items = new ArrayList<item>();
 		events = new ArrayList<String>();
 		upgrades = new ArrayList<String>();
 		upgrades.add("tst");
+		turn=0;
 
 	}//end constructor
 	

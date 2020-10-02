@@ -22,6 +22,7 @@ public class game_main extends gconsole_menu {
 				,"management"
 				,"events"
 				,"pass turn"
+				,"save game"
 				};
 		ui = new gyinput(cio2);
 	}//end constructor
@@ -56,7 +57,10 @@ public class game_main extends gconsole_menu {
 		//pass turn
 		if(next.equals("4")) {game_manger.pass_turn(); messge ="passed turn";}
 		
-		
+		//save game
+		if(next.equals("5")) {game_manger.save_game(); messge ="saved game";}
+				
+				
 	}//end menu_user_input
 	
 	public void show_events() 

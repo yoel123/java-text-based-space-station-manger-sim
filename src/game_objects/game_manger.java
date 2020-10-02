@@ -1,20 +1,21 @@
 package game_objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import db.event_db;
 import db.item_db;
 import db.upgrades_db;
 import helpers.S;
+import helpers.ydb_s;
 
-public class game_manger {
+public class game_manger implements Serializable {
 	
 	public static market m;
 	public static player p;
-	public static int turn;
 	
 	
-	public static void start_game() 
+	public static void init_dbs() 
 	{
 		//init item db
 		item_db.gen_items();
@@ -22,6 +23,11 @@ public class game_manger {
 		event_db.gen_events();
 		//init upgrades
 		upgrades_db.gen_upgrades();
+	}
+	public static void start_game() 
+	{
+
+		init_dbs();
 		
 		//init market
 		m = new market(item_db.db);
@@ -36,7 +42,7 @@ public class game_manger {
 	
 	public static void pass_turn() 
 	{
-		turn++;
+		game_manger.p.turn++;
 		//add events
 		//shufel murket
 		m.supply_and_demend_gen();
@@ -53,5 +59,22 @@ public class game_manger {
 		}
 		
 	}//end pass_turn
+
+	public static void save_game() 
+	{
+		ArrayList a = new ArrayList();
+		a.add(game_manger.p);
+		a.add(game_manger.m);
+		a.add(5);
+		ydb_s.write_to_file("save_tst.dat", a);
+	}//end save_game
 	
+	public static void load_game() 
+	{
+		init_dbs();
+		ArrayList a = (ArrayList)ydb_s.read_file("save_tst.dat");
+		game_manger.p = (player)a.get(0);
+		game_manger.m = (market)a.get(1);
+		
+	}//end save_game
 }

@@ -37,7 +37,7 @@ public class event_manger {
 	}//end random events
 	
 	//do the action of an event
-	public static void do_event(String etxt
+	public static String do_event(String etxt
 			,GUIConsoleIO cio) 
 	{
 		String[] e = etxt.split(",");
@@ -78,16 +78,19 @@ public class event_manger {
 			//is busted
 			int rnd2 =(int)(Math.random()*10+1);
 			int fine = 10000;
-			
+			String messge = "";
 			if(answer.equals("y")) 
 			{
+
 				//check if can buy
 				if(game_manger.p.buy(goods_to_sell, goods_amount)) 
 				{
 					cio.println("done deal");
+					messge = "done deal";
 				}else 
 				{
 					cio.println("deal failed (you dont have enough credits");
+					messge = "deal failed";
 				}
 				
 				//check if busted
@@ -95,15 +98,17 @@ public class event_manger {
 				{
 					cio.println("the police catchs on to your illigal deal and fines you for: "+fine);
 					game_manger.p.credits -= fine;
+					messge += "the police catchs on to your illigal deal and fines you for: " + fine;
 				}
 			}//end if y
 			
 			
-			
+			return messge;
 		}//end smuglers_sell
 
 		
 		cio.println(desc);
+		return "";
 
 	}//end do_event
 	

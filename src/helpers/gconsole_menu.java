@@ -30,6 +30,7 @@ public class gconsole_menu {
 	
 	public void update() 
 	{
+		cio.clear();
 		menu_show() ;
 		menu_user_input();
 	}//end update

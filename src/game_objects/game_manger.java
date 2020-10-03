@@ -48,8 +48,11 @@ public class game_manger implements Serializable {
 		m.supply_and_demend_gen();
 		//update player
 		p.update_taxes();
+		
 		//genrate events
 		event_manger.random_events();
+		//hendale long term events
+		event_manger.long_term_events_update();
 		
 		//tax return
 		if(p.taxes_owed<0) 

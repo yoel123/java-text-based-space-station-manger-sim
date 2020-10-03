@@ -37,7 +37,7 @@ public class gconsole_menu {
 	
 	public void menu_show() 
 	{
-		yp(messge);
+		yp("\n"+messge+"\n");
 		int i=1;//iterator
 		//foreach menu_items
 		for(String item :menu_items) 

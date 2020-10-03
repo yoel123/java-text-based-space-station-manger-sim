@@ -1,6 +1,11 @@
 package game_objects;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+
 import db.event_db;
+import helpers.S;
 import helpers.gyinput;
 import helpers.yvars;
 import helpers.C.GUIConsoleIO;
@@ -96,9 +101,9 @@ public class event_manger {
 				//check if busted
 				if(rnd2>8) 
 				{
-					cio.println("the police catchs on to your illigal deal and fines you for: "+fine);
+					cio.println(" the police catchs on to your illigal deal and fines you for: "+fine);
 					game_manger.p.credits -= fine;
-					messge += "the police catchs on to your illigal deal and fines you for: " + fine;
+					messge += " the police catchs on to your illigal deal and fines you for: " + fine;
 				}
 			}//end if y
 			
@@ -142,4 +147,35 @@ public class event_manger {
 		return ret;
 	}//end do_immidiate
 	
-}
+	public static void long_term_events_update() 
+	{
+		if(game_manger.p.counters_list.size()==0) {return;}
+		player p = game_manger.p;
+		ArrayList<String> counters = game_manger.p.counters_list;
+		Iterator<String> i = counters.iterator();
+		for(String e:counters) 
+		{
+			p.incrament_counter(e);
+			
+			if(p.is_counter_done(e)) 
+			{
+				do_long_term_events(e); 
+			}
+		}
+		
+		//remove unneeded elements
+		counters.removeAll(Collections.singleton("yremove"));
+
+	}//end do_long_term_events
+	
+	public static void do_long_term_events(String name) 
+	{
+		if(name.equals("test")) 
+		{
+			 game_manger.p.events.add("**test long term event fired");
+			 game_manger.p.remove_counter(name);
+			 
+		}
+	}
+	
+}//end event_manger

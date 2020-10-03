@@ -32,6 +32,13 @@ public class start_menu extends gconsole_menu {
 			//go to main game screen
 			gm.change_menu("game_main");
 		}//end start
+		
+		if(next.equals("2") ) 
+		{
+			cio.clear();
+			game_manger.load_game();
+			gm.change_menu("game_main");
+		}
 		if(next.equals("3") || next.equals("credits")) 
 		{
 			cio.clear();

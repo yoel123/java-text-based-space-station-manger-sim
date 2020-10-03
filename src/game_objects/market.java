@@ -1,12 +1,13 @@
 package game_objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
 import helpers.IndexableMap;
 import helpers.S;
 
-public class market {
+public class market implements Serializable{
 	public ArrayList<item> items;
 
 	public market(IndexableMap<String,String> db)

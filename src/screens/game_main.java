@@ -22,6 +22,7 @@ public class game_main extends gconsole_menu {
 				,"management"
 				,"events"
 				,"pass turn"
+				,"save game"
 				};
 		ui = new gyinput(cio2);
 	}//end constructor
@@ -54,9 +55,12 @@ public class game_main extends gconsole_menu {
 		if(next.equals("3")) {show_events();}
 		
 		//pass turn
-		if(next.equals("4")) {game_manger.pass_turn();}
+		if(next.equals("4")) {game_manger.pass_turn(); messge ="passed turn";}
 		
-		
+		//save game
+		if(next.equals("5")) {game_manger.save_game(); messge ="saved game";}
+				
+				
 	}//end menu_user_input
 	
 	public void show_events() 
@@ -70,7 +74,7 @@ public class game_main extends gconsole_menu {
 		}
 		
 		int number_of_options = events.size();
-				
+		//sl_e = selected events		
 		int sel_e = ui.get_int("resolve event(0 to go back)");
 		
 		//exit if 0

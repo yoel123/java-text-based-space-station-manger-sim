@@ -1,14 +1,18 @@
 package game_objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import helpers.IndexableMap;
 import helpers.S;
 
-public class player {
+public class player implements Serializable{
 	
 	public int credits;
 	public ArrayList<item> items;
-	public ArrayList<String> events,upgrades;
+	public ArrayList<String> events,upgrades,counters_list;
 	public boolean insurance;
 	public int insurance_rate = 500,
 			taxes_owed,didnt_pay_taxes_c,didnt_pay_taxes_max=5;
@@ -17,15 +21,70 @@ public class player {
 	
 	int cargo=0,cargo_limit = 500;
 	
+	public  int turn;
+	
+	//long term events counters
+	public IndexableMap<String,Integer> counters ;
+	
 	public player() {
-		
+
 		items = new ArrayList<item>();
 		events = new ArrayList<String>();
 		upgrades = new ArrayList<String>();
 		upgrades.add("tst");
+		counters_list = new ArrayList<String>();
+		counters = new IndexableMap<String,Integer>();
+		turn=0;
+		add_counter("test",3);
 
 	}//end constructor
 	
+	////////////counters////////////
+	
+	public void add_counter(String name,int max) 
+	{
+		counters.put(name+"_counter", 0);
+		counters.put(name+"_max", max);
+		counters_list.add(name);
+	}//end add_counter
+	
+	public void remove_counter(String name) 
+	{
+		counters.remove(name+"_counter");
+		
+		counters.remove(name+"_max");
+		int i = counters_list.indexOf(name);
+		counters_list.set(i, "yremove");
+	}//end remove_counter
+	
+	
+	
+	public void reset_counter(String name) 
+	{
+		 counters.replace(name+"_counter",0);
+	}//end reset_counter
+	
+	public void incrament_counter(String name) 
+	{
+		int count = counters.get(name+"_counter").intValue()+1;
+		counters.replace(name+"_counter",count);
+	}//end reset_counter
+	
+	
+	
+	public boolean is_counter_done(String name) 
+	{
+		int count = counters.get(name+"_counter").intValue()
+		,max = counters.get(name+"_max").intValue();
+		
+		if(count> max) {return true;}
+		
+		return false;
+	}//end is_counter_done
+	
+     ////////////end counters////////////
+	
+	/////////market/////////
 	//buy item
 	public boolean buy(item it,int amount)
 	{
@@ -106,12 +165,15 @@ public class player {
 		return ret;
 	}//end items_list
 	
+	/////////end market/////////
+	
 	public String show_stats()
 	{
 	
 		return "cerdits: "+credits+" cargo space:"+cargo+"/"+cargo_limit;
 	}//end show_stats
 	
+	//add taxes calculated from your earnings
 	public void add_taxes(int earnings) 
 	{
 		
@@ -119,6 +181,7 @@ public class player {
 		taxes_owed += to_pay; 
 	}//end add_txes
 	
+	//makes sure you pay your taxes in a few turns or else you get fined
 	public void update_taxes() 
 	{
 		//incrament how long player didnt pay taxes

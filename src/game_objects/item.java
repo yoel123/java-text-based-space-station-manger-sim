@@ -1,8 +1,10 @@
 package game_objects;
 
+import java.io.Serializable;
+
 import helpers.yvars;
 
-public class item {
+public class item implements Serializable{
 
 	public String name;
 	public int amount,you_paid,cost,min_price,max_price;

@@ -8,6 +8,7 @@ import screens.game_main;
 import screens.mangment_screen;
 import screens.market_screen;
 import screens.start_menu;
+import screens.station_info_screen;
 
 public class ymain {
 
@@ -31,6 +32,8 @@ public class ymain {
 		
 		mangment_screen mng = new mangment_screen(cio);
 		
+		station_info_screen inf = new station_info_screen(cio);
+		
 		//add menus to gmenu_manger
 		gm.add_menu("start", tst);
 		
@@ -39,6 +42,8 @@ public class ymain {
 		gm.add_menu("market_screen", ms);
 		
 		gm.add_menu("station_mangment_screen", mng);
+		
+		gm.add_menu("station_info_screen", inf);
 		
 		//chane to start menu and run game
 		gm.change_menu("start");

@@ -112,6 +112,53 @@ public class event_manger {
 			return messge;
 		}//end smuglers_sell
 
+		//Begin crazy inventor selection
+		if(action.equals("crazy_inventor")) 
+		{
+			
+			//Upgrade data
+			String[] upgrades =  {
+				""
+				, ""
+				, ""
+			};
+			int rnd_upgrade = (int)Math.random()*upgrades.length;
+			String upgrade = upgrades[rnd_upgrade];
+			int upgrade_amount = (int)(Math.random()*10+1); //Not sure what valid ranges should be
+					
+			//Ask player if they agree to the deal
+			String upgrades_offer = desc+" would like to make an "
+					+ "experimental upgrade on your station do you agree? (y/n)";
+			String answer = ui.get_string(upgrades_offer);
+
+			//Is a bad upgrade
+			int rnd_damage_multiplier; // Not sure what range for random should be
+			int station_damage; // To be calculated when station damage amount ranges are known
+			String message = "Your station took a catastrophic blow, the crazy"
+					+ " inventor's upgrade fails!";
+			
+			
+			if(answer.equals("y") || answer.equals("Y")) 
+			{
+
+				//check if can afford upgrades
+				if(game_manger.p.buy_upgrade(upgrade, upgrade_amount)) 
+				{
+					cio.println("Upgrades Applied");
+					message = "Upgrades Applied";
+				}else 
+				{
+					cio.println("The Crazy Inventor scoffs at you with disdain! (you dont have enough credits)");
+					message = "No upgrades were applied";
+				}
+				
+				//check if upgrades are a flop and cause damage... TBD
+				
+			}//end if y
+			
+			
+			return message;
+		}// end crazy_inventor
 		
 		cio.println(desc);
 		return "";

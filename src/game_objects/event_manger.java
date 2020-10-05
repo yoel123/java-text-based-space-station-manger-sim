@@ -111,44 +111,43 @@ public class event_manger {
 			return messge;
 		}//end smuglers_sell
 
+		//Begin crazy inventor selection
 		if(action.equals("crazy_inventor")) 
 		{
 			
-			//random item get
-			int item_num = game_manger.m.items.size();
-			int rndi =(int)(Math.random()*item_num);
-			item upgrades_to_sell =  game_manger.m.items.get(rndi);
-			upgrades_to_sell = new item(upgrades_to_sell);//make copy
-			String upgrades_name = upgrades_to_sell.name;
-			int upgrades_amount = (int)(Math.random()*10+1);
-			int inventor_price_per_upgrade = upgrades_to_sell.max_price/4;//item max/2
-			upgrades_to_sell.cost = inventor_price_per_upgrade;
-			upgrades_to_sell.amount = upgrades_amount;
-			int total_price = upgrades_amount*inventor_price_per_upgrade;
-			
-			//ask player if they agree to the deal
-			String upgrades_offer = desc+" wants to sell you "+upgrades_amount
-					+" "+upgrades_name+" for "+total_price+" do you agree? (y/n)";
+			//Upgrade data
+			String[] upgrades =  {
+				""
+				, ""
+				, ""
+			};
+			int rnd_upgrade = (int)Math.random()*upgrades.length;
+			String upgrade = upgrades[rnd_upgrade];
+			int upgrade_amount = (int)(Math.random()*10+1); //Not sure what valid ranges should be
+					
+			//Ask player if they agree to the deal
+			String upgrades_offer = desc+" would like to make an "
+					+ "experimental upgrade on your station do you agree? (y/n)";
 			String answer = ui.get_string(upgrades_offer);
 
-			//is a bad upgrade
-			/**
-			 * Not sure what total station health is at the moment
-			 */
-			int rnd2; // Not sure what range for random should be
-			int station_damage; // To be filled out when station damage amount ranges are known
-			String message = "";
+			//Is a bad upgrade
+			int rnd_damage_multiplier; // Not sure what range for random should be
+			int station_damage; // To be calculated when station damage amount ranges are known
+			String message = "Your station took a catastrophic blow, the crazy"
+					+ " inventor's upgrade fails!";
+			
+			
 			if(answer.equals("y") || answer.equals("Y")) 
 			{
 
 				//check if can afford upgrades
-				if(game_manger.p.buy(upgrades_to_sell, upgrades_amount)) 
+				if(game_manger.p.buy_upgrade(upgrade, upgrade_amount)) 
 				{
 					cio.println("Upgrades Applied");
 					message = "Upgrades Applied";
 				}else 
 				{
-					cio.println("The Crazy Inventor scoffs at you with disdain! (you dont have enough credits");
+					cio.println("The Crazy Inventor scoffs at you with disdain! (you dont have enough credits)");
 					message = "No upgrades were applied";
 				}
 				

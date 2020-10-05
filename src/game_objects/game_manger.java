@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import db.event_db;
 import db.item_db;
 import db.upgrades_db;
-import helpers.S;
 import helpers.ydb_s;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class game_manger implements Serializable {
 	
@@ -42,6 +42,8 @@ public class game_manger implements Serializable {
 	
 	public static void pass_turn() 
 	{
+		//showMessageDialog(null, "payments_owed :"+s_personal.payments_owed);		
+		
 		game_manger.p.turn++;
 		//add events
 		//shufel murket
@@ -53,6 +55,21 @@ public class game_manger implements Serializable {
 		event_manger.random_events();
 		//hendale long term events
 		event_manger.long_term_events_update();
+		
+		//if owe personal payments
+		if(game_manger.p.s_personal.payments_owed>0) 
+		{
+			game_manger.p.add_counter_once("worker_union_fine",12);
+		}
+		
+		//Increment personal payments owed
+		game_manger.p.incrament_sallery_owed();
+		
+		//worker union fine game over (i you get 4 your business is closed by law)
+		if(game_manger.p.s_personal.union_fine>4) 
+		{
+			//do game over
+		}
 		
 		//tax return
 		if(p.taxes_owed<0) 

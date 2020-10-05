@@ -1,5 +1,7 @@
 package game_objects;
 
+import static javax.swing.JOptionPane.showMessageDialog;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +17,8 @@ public class player implements Serializable{
 	public ArrayList<String> events,upgrades,counters_list;
 	public boolean insurance;
 	public int insurance_rate = 500,
-			taxes_owed,didnt_pay_taxes_c,didnt_pay_taxes_max=5;
+			taxes_owed,didnt_pay_taxes_c,didnt_pay_taxes_max=5
+			,station_secutity=0;
 	double tax_rate = 0.05;
 	boolean taxes_problem;
 	
@@ -25,6 +28,9 @@ public class player implements Serializable{
 	
 	//long term events counters
 	public IndexableMap<String,Integer> counters ;
+	
+	//station personal object
+	public station_personal s_personal;
 	
 	public player() {
 
@@ -36,6 +42,8 @@ public class player implements Serializable{
 		counters = new IndexableMap<String,Integer>();
 		turn=0;
 		add_counter("test",3);
+		
+		s_personal = new station_personal();
 
 	}//end constructor
 	
@@ -46,6 +54,12 @@ public class player implements Serializable{
 		counters.put(name+"_counter", 0);
 		counters.put(name+"_max", max);
 		counters_list.add(name);
+	}//end add_counter
+	
+	public void add_counter_once(String name,int max) 
+	{
+		if(counters_list.indexOf(name)!=-1 ) {return;}
+		add_counter(name,max);
 	}//end add_counter
 	
 	public void remove_counter(String name) 
@@ -173,6 +187,8 @@ public class player implements Serializable{
 		return "cerdits: "+credits+" cargo space:"+cargo+"/"+cargo_limit;
 	}//end show_stats
 	
+	/////////taxes////////
+	
 	//add taxes calculated from your earnings
 	public void add_taxes(int earnings) 
 	{
@@ -219,7 +235,9 @@ public class player implements Serializable{
 		
 	}//end pay_taxes
 	
+	/////////end taxes////////
 	
+	/////upgrades//////
 	public boolean buy_upgrade(String name,int cost)
 	{
 		//can buy
@@ -230,6 +248,39 @@ public class player implements Serializable{
 		
 		return true;
 	}//end buy_upgrade
+	
+	///////personal////////
+	
+	public void incrament_sallery_owed()
+	{
+		s_personal.payments_owed += s_personal.calculate_salery();
+		
+	}//end incrament_sallery_owed
+	
+	public boolean pay_sallery(int n)
+	{
+		if(n>credits || n<0) {return false;}
+		s_personal.payments_owed -=n;
+		credits -= n;
+		//return overpay
+		if(s_personal.payments_owed<0) 
+		{
+			credits += s_personal.payments_owed*-1;
+		}
+		//remove long term event "worker_union_fine"
+		if(s_personal.payments_owed<=0 && n >200) 
+		{
+			remove_counter("worker_union_fine");
+		}
+		return true;
+	}//end pay_sallery
+	
+	public boolean hire_personal(String type,int n){return false;}//end hire_personal
+	
+	public boolean fire_personal(String type,int n){return false;}//end fire_personal
+	
+	
+	///////end personal////////
 	
 
 

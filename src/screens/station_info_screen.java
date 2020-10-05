@@ -9,8 +9,8 @@ import helpers.gconsole_menu;
 import helpers.gyinput;
 import game_objects.item;
 
-/*station market terminal
- * where the player can buy and sell goods
+/*station information screen
+ * a collection of all info about the station for the player to view
  * */
 
 public class station_info_screen extends gconsole_menu {
@@ -21,12 +21,6 @@ public class station_info_screen extends gconsole_menu {
 		menu_items = new String[]{
 				"back"
 				};
-		//For array lists of player info add here to loop through
-		//could reduce large code section in menu show
-		String[] player_info = new String[] {
-			"items"
-			,"upgrades"
-		};
 		ui = new gyinput(cio2);
 	}//end constructor
 	
@@ -59,30 +53,36 @@ public class station_info_screen extends gconsole_menu {
 	}//end menu_user_input
 	
 	public void display_player_data() {
+		//broke displays into function to easily change to separate
+		//options should we decide to change layout later
 		cio.println("--------------------");
 		cio.println("Current turn:"+game_manger.p.turn);
+		display_station_upgrades();
+		display_station_inventory();
+		display_station_long_events();
+	}//end display_player_data
+	
+	public void display_station_upgrades() {
 		cio.println("\n--Station Upgrades--");
 		for(String upgrade:game_manger.p.upgrades) {
 			cio.println(upgrade);
 		};
-		cio.println("\n--Station Inventory--");
-		for(item items:game_manger.p.items) {
-			cio.println(capitalize(items.name.toString())+"::: amount: "+items.amount);
-		};
+	}// end display_station_upgrades
+	
+	public void display_station_long_events() {
 		cio.println("\n--Long Term Events--");
 		for(Object items:game_manger.p.counters_list) {
 			int event_turns_remaining = game_manger.p.counters.get(items.toString()+"_max")-game_manger.p.counters.get(items.toString()+"_counter");
-			cio.println(capitalize(items.toString())+"::: turns remaining: "+event_turns_remaining);
+			cio.println(items.toString()+"::: turns remaining: "+event_turns_remaining);
+		};	
+	}//end display_station_long_events
+	
+	public void display_station_inventory() {
+		cio.println("\n--Station Inventory--");
+		for(item items:game_manger.p.items) {
+			cio.println(items.name.toString()+"::: amount: "+items.amount);
 		};
-	}//end display_player_data
-	
-	
-	//capitalize function from https://stackoverflow.com/questions/5725892/how-to-capitalize-the-first-letter-of-word-in-a-string-using-java/45153268
-	public String capitalize(String originalString) {
-		if(originalString==null || originalString.length()==0) {return originalString;}
-		else {
-			return originalString.substring(0,1).toUpperCase() + originalString.substring(1);
-		}
-	}//end capitalize
+	}//display_station_inventory
+
 	
 }

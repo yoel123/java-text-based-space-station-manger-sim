@@ -21,6 +21,7 @@ public class mangment_screen extends gconsole_menu {
 				,"buy insurence"
 				,"taxes"
 				,"personal"
+				,"station status report (stats)"
 
 				};
 		ui = new gyinput(cio2);
@@ -51,6 +52,10 @@ public class mangment_screen extends gconsole_menu {
 		if(next.equals("3")) {buy_insurence() ;}
 		//taxes
 		if(next.equals("4")) {pay_taxes() ;}
+		//personal
+		if(next.equals("5")) {personal_do();}
+		//all stats
+		if(next.equals("6")) {}
 		
 		//if(messge != "") {messge="";}
 		
@@ -123,6 +128,35 @@ public class mangment_screen extends gconsole_menu {
 		}
 	}//end buy_insurence
 	
+	
+	public void personal_do() 
+	{
+		int owed = game_manger.p.s_personal.payments_owed;
+		cio.println("payments you owe to station personal: "+owed);
+		
+		cio.println("1)hire personal");
+		cio.println("2)pay salery");
+		cio.println("3)fire personal");
+		
+		int choice = ui.get_int("(0 to return)");
+		
+		//2)pay salery
+		if(choice ==2) {
+			int amount_to_pay = ui.get_int("enter payment:");
+			
+			//reduce payments owed
+			if(game_manger.p.pay_sallery(amount_to_pay)) 
+			{
+				messge="you paied "+amount_to_pay+" to station personal";
+			}else {messge="payment faield";}
+			
+		}//end if 2 pay salery
+		
+		
+		
+		
+	}//end personal_do
+
 	
 
 }

@@ -9,6 +9,7 @@ import helpers.S;
 import helpers.gyinput;
 import helpers.yvars;
 import helpers.C.GUIConsoleIO;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class event_manger {
 
@@ -156,7 +157,6 @@ public class event_manger {
 		for(String e:counters) 
 		{
 			p.incrament_counter(e);
-			
 			if(p.is_counter_done(e)) 
 			{
 				do_long_term_events(e); 
@@ -176,6 +176,18 @@ public class event_manger {
 			 game_manger.p.remove_counter(name);
 			 
 		}
-	}
+		
+		if(name.equals("worker_union_fine")) 
+		{
+			 game_manger.p.events.add("**worker union fine!"
+			 		+ " pay your workers or else we will close your buisness");
+			 game_manger.p.s_personal.union_fine++;
+			 //remove credits (1000 multiplied by fines you got)
+			 game_manger.p.credits -= 1000*game_manger.p.s_personal.union_fine;
+			 game_manger.p.remove_counter(name);
+			 //showMessageDialog(null, "pay workers!");
+		}
+		
+	}//end do_long_term_events
 	
 }//end event_manger

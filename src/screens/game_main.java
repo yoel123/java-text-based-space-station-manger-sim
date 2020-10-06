@@ -20,6 +20,7 @@ public class game_main extends gconsole_menu {
 		
 		menu_items = new String[]{"market"
 				,"management"
+				,"station information"
 				,"events"
 				,"pass turn"
 				,"save game"
@@ -51,14 +52,18 @@ public class game_main extends gconsole_menu {
 		//management screen
 		if(next.equals("2")) {cio.clear();gm.change_menu("station_mangment_screen");}
 		
+		if(next.equals("3")) {gm.change_menu("station_info_screen");}
+		
 		//events show
-		if(next.equals("3")) {show_events();}
+		if(next.equals("4")) {show_events();}
 		
 		//pass turn
-		if(next.equals("4")) {game_manger.pass_turn(); messge ="passed turn";}
+		if(next.equals("5")) {game_manger.pass_turn(); messge ="passed turn";}
 		
 		//save game
-		if(next.equals("5")) {game_manger.save_game(); messge ="saved game";}
+		if(next.equals("6")) {game_manger.save_game(); messge ="saved game";}
+		
+		
 				
 				
 	}//end menu_user_input

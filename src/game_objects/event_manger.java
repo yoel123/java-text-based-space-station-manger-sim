@@ -27,7 +27,7 @@ public class event_manger {
 		{
 			//random event id
 			int rand_event =(int)(Math.random()*event_db.db.size());
-			rand_event = 5;
+			rand_event = 5;//for testing
 			
 			//get event from db
 			String e = event_db.db.getValueAt(rand_event);
@@ -46,13 +46,18 @@ public class event_manger {
 	public static String do_event(String etxt
 			,GUIConsoleIO cio) 
 	{
+		//event text to array
 		String[] e = etxt.split("//");
-		String action = e[0];
+		String action = e[0];//the events logic action that will happen
+		//some events hold an amount value
 		int amount = yvars.ystoint(e[1]);
+		//the events description/flavor text
 		String desc = e[2];
 		
+		//player handale
 		player p  = game_manger.p;
 		
+		//user input helper
 		gyinput ui = new gyinput(cio);
 
 		if(action.equals("test")) 
@@ -60,6 +65,7 @@ public class event_manger {
 			cio.println("test works");
 		}
 		
+		//smuglers offer to sell you somthing
 		if(action.equals("smuglers_sell")) 
 		{
 			
@@ -81,10 +87,13 @@ public class event_manger {
 					+" "+goods_name+" for "+total_price+" do you agree? (y/n)";
 			String answer = ui.get_string(ask_t_buy);
 			
-			//is busted
+			//is busted "roll"
 			int rnd2 =(int)(Math.random()*10+1);
 			int fine = 10000;
-			String messge = "";
+			
+			String messge = "";//messge that will be returned
+			
+			//if user agrees to the deal
 			if(answer.equals("y")) 
 			{
 
@@ -111,8 +120,13 @@ public class event_manger {
 			
 			return messge;
 		}//end smuglers_sell
+		
+		if(action.equals("smuglers_buy")) 
+		{
+			
+		}//end smuglers_buy
 
-		//Begin crazy inventor selection
+		//a crazy inventor wants to upgrade your station for cheap
 		if(action.equals("crazy_inventor")) 
 		{
 			
@@ -170,13 +184,19 @@ public class event_manger {
 	
 	public static String do_immidiate(String etxt) 
 	{
+		//event text to array
 		String[] e = etxt.split("//");
+		//the event logic action
 		String action = e[0];
+		//some events have an amount
 		int amount = yvars.ystoint(e[1]);
+		//the events description
 		String desc = e[2];
 		
+		//player hendale
 		player p  = game_manger.p;
 		
+		//the string this method returns
 		String ret ="";
 		
 		//events that cause you to loss money

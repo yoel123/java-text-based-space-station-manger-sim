@@ -1,6 +1,7 @@
 package screens;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import game_objects.event_manger;
 import game_objects.game_manger;
@@ -72,9 +73,12 @@ public class game_main extends gconsole_menu {
 	{
 		ArrayList<String> events = game_manger.p.events;
 		int i =1;
+		String[] er;
 		for(String e :events) 
 		{
-			S.o(i+") "+e);
+			er=e.split("//");
+			S.o(i+") "+er[0]);
+			//S.o(Arrays.toString(er));
 			i++;
 		}
 		
@@ -97,7 +101,7 @@ public class game_main extends gconsole_menu {
 		//if event was immidiate (meaning no player choice so dont use do event
 		if(se.contains("**")) 
 		{
-			cio.println("event already done select another");
+			cio.println("--event already done select another\n");
 			show_events();
 		}
 		else {

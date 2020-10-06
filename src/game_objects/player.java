@@ -102,7 +102,7 @@ public class player implements Serializable{
 	//buy item
 	public boolean buy(item it,int amount)
 	{
-		int cost = it.cost;
+		int cost = it.cost*amount;
 		
 		//check if theres enough credits and the amount is not bigger then
 		//Available amount
@@ -129,7 +129,7 @@ public class player implements Serializable{
 			nit.amount = amount;//reset amount to amount bought
 		}
 		it.amount -=amount;
-		credits -= cost*amount;
+		credits -= cost;
 		//add to cargo amount
 		cargo+=amount;
 		return true;
@@ -242,6 +242,9 @@ public class player implements Serializable{
 	{
 		//can buy
 		if(cost > credits ) {return false;}
+		
+		//check if upgrade exists
+		if(upgrades.indexOf(name)>-1) {return false;}
 		
 		credits -=cost;
 		upgrades.add(name);

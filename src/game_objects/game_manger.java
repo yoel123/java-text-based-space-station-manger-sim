@@ -72,11 +72,14 @@ public class game_manger implements Serializable {
 		}
 		
 		//tax return
-		if(p.taxes_owed<0) 
+		if(game_manger.p.taxes_owed<0) 
 		{
 			game_manger.p.events.add("tax return,"+(p.taxes_owed*-1)+", ");
 			game_manger.p.credits += p.taxes_owed*-1;
 		}
+		
+		//reset insurence
+		game_manger.p.insurance=false;
 		
 	}//end pass_turn
 

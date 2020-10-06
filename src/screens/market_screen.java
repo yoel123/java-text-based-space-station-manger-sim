@@ -17,7 +17,7 @@ public class market_screen extends gconsole_menu {
 	public market_screen(GUIConsoleIO cio2) {
 		super(cio2);
 		menu_items = new String[]{
-				"buy","sell","back"
+				"back","buy","sell"
 				};
 		ui = new gyinput(cio2);
 	}//end constructor
@@ -38,23 +38,26 @@ public class market_screen extends gconsole_menu {
 	{
 		super.menu_user_input();
 
-		//buy
+		
+		//back
 		if(next.equals("1")) 
+		{
+			gm.change_menu("game_main");
+		}
+		
+		//buy
+		if(next.equals("2")) 
 		{
 			do_buy(); 
 		}
 
 		//sell
-		if(next.equals("2")) 
+		if(next.equals("3")) 
 		{
 			do_sell(); 
 		}
 		
-		//back
-		if(next.equals("3")) 
-		{
-			gm.change_menu("game_main");
-		}
+	
 		
 		
 		

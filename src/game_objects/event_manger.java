@@ -27,7 +27,7 @@ public class event_manger {
 		{
 			//random event id
 			int rand_event =(int)(Math.random()*event_db.db.size());
-			rand_event = 3;
+			rand_event = 5;
 			
 			//get event from db
 			String e = event_db.db.getValueAt(rand_event);
@@ -46,7 +46,7 @@ public class event_manger {
 	public static String do_event(String etxt
 			,GUIConsoleIO cio) 
 	{
-		String[] e = etxt.split(",");
+		String[] e = etxt.split("//");
 		String action = e[0];
 		int amount = yvars.ystoint(e[1]);
 		String desc = e[2];
@@ -118,14 +118,16 @@ public class event_manger {
 			
 			//Upgrade data
 			String[] upgrades =  {
-				""
-				, ""
-				, ""
+				"mtest1"
+				, "mtest2"
+				, "mtest3"
 			};
 			int rnd_upgrade = (int)Math.random()*upgrades.length;
 			String upgrade = upgrades[rnd_upgrade];
 			int upgrade_amount = (int)(Math.random()*10+1); //Not sure what valid ranges should be
-					
+			
+			//showMessageDialog(null,rnd_upgrade+" "+upgrade_amount);
+			
 			//Ask player if they agree to the deal
 			String upgrades_offer = desc+" would like to make an "
 					+ "experimental upgrade on your station do you agree? (y/n)";
@@ -141,6 +143,8 @@ public class event_manger {
 			if(answer.equals("y") || answer.equals("Y")) 
 			{
 
+				//check if upgrades are a flop and cause damage... TBD
+				
 				//check if can afford upgrades
 				if(game_manger.p.buy_upgrade(upgrade, upgrade_amount)) 
 				{
@@ -152,11 +156,10 @@ public class event_manger {
 					message = "No upgrades were applied";
 				}
 				
-				//check if upgrades are a flop and cause damage... TBD
-				
+			
 			}//end if y
 			
-			
+			 ui.get_string("press enter to continue");
 			return message;
 		}// end crazy_inventor
 		
@@ -167,7 +170,7 @@ public class event_manger {
 	
 	public static String do_immidiate(String etxt) 
 	{
-		String[] e = etxt.split(",");
+		String[] e = etxt.split("//");
 		String action = e[0];
 		int amount = yvars.ystoint(e[1]);
 		String desc = e[2];
@@ -187,6 +190,7 @@ public class event_manger {
 			{
 				//if you dont have insurance loss money
 				game_manger.p.credits -=amount;
+				desc = desc+" you lost "+amount+" credits";
 			}
 			//return the text to show the player
 			ret = desc;

@@ -48,13 +48,15 @@ public class game_manger implements Serializable {
 		//add events
 		//shufel murket
 		m.supply_and_demend_gen();
-		//update player
-		p.update_taxes();
 		
 		//genrate events
 		event_manger.random_events();
 		//hendale long term events
 		event_manger.long_term_events_update();
+		
+		//update player
+		p.update_taxes();
+				
 		
 		//if owe personal payments
 		if(game_manger.p.s_personal.payments_owed>0) 

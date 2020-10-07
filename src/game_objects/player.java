@@ -33,7 +33,7 @@ public class player implements Serializable{
 	public station_personal s_personal;
 	
 	public player() {
-
+		
 		items = new ArrayList<item>();
 		events = new ArrayList<String>();
 		upgrades = new ArrayList<String>();
@@ -203,10 +203,11 @@ public class player implements Serializable{
 		//incrament how long player didnt pay taxes
 		if(taxes_owed>0) {didnt_pay_taxes_c++;}
 		//if player didn't pay taxes for 12 turns give him a warning
-		if(didnt_pay_taxes_c>12) 
+		if(didnt_pay_taxes_c>10) 
 		{
-			events.add("notice!,0,this is your final notice pay your taxes"
+			events.add("**notice! this is your final notice pay your taxes"
 					+ " or your assets would be liquidated");
+			
 		}
 		//if player didnt heed warning give him problems
 		if(didnt_pay_taxes_c>13) 

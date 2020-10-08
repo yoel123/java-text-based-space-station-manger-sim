@@ -4,7 +4,7 @@ import helpers.IndexableMap;
 
 public class event_db {
 	public static  IndexableMap<String,String> db;
-	
+	public static String ychar ="//";
 	public static void gen_events() 
 	{
 		//action,amount,desc,immediate

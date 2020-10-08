@@ -1,10 +1,16 @@
 package screens;
 
+import java.util.Map.Entry;
+
+import db.upgrades_db;
 import game_objects.game_manger;
+import game_objects.item;
 import game_objects.player;
 import helpers.C.GUIConsoleIO;
+import helpers.IndexableMap;
 import helpers.gconsole_menu;
 import helpers.gyinput;
+import helpers.yvars;
 
 /*
  * station mangment screen where the player can upgrade,
@@ -71,7 +77,7 @@ public class mangment_screen extends gconsole_menu {
 		cio.println("2)buy upgrades");
 		int choice = ui.get_int("");
 		if(choice ==1) {upgrades_list();show_upgrades();}
-		if(choice ==2) {}
+		if(choice ==2) {buy_upgrades();}
 		
 		
 	}//end show_upgrades
@@ -85,7 +91,48 @@ public class mangment_screen extends gconsole_menu {
 		}
 		cio.println("=============");
 	}
-
+	
+	public void buy_upgrades() 
+	{
+		//get upgrades db
+		IndexableMap<String, String> udb = upgrades_db.db;
+		String[] upgrade;//single upgrade
+		int i=1;//iteration counter
+		for (Entry<String, String> me : udb.entrySet()) 
+		{
+			
+			upgrade = me.getValue().split(upgrades_db.ychar);
+			//if player has upgrade dont show it
+			if(game_manger.p.upgrades.indexOf(upgrade[0])==-1) 
+			{
+				cio.println(i+") "+upgrade[0]+" price "+upgrade[1]);
+			}
+			i++;
+		}//end for
+		
+		//get theupgrade the player wants to buy
+		int choice = ui.get_int("select upgrade to buy (enter to return)");
+		
+		//check for potential errors (validate input)
+		if(choice ==0 || choice<0 || udb.getKeyAt(choice-1) ==null)
+		{
+			messge ="upgrade dosnt exist";
+			return;
+		}
+		
+		//get the upgrade player chose
+		String[] upgrade_to_buy = udb.getValueAt(choice-1).split(upgrades_db.ychar);
+		
+		int cost = yvars.ystoint(upgrade_to_buy[1]);
+		//check if player can buy (has credits and dosnt already have upgrade
+		if(game_manger.p.credits>=cost && game_manger.p.upgrades.indexOf(upgrade_to_buy[0]) ==-1) {
+			game_manger.p.upgrades.add(upgrade_to_buy[0]);
+			messge ="bought upgrade";
+		}else {
+			messge ="failed to buy upgrade";
+		}
+		
+	}//end buy_upgrades
 	private void pay_taxes() {
 		
 		player p = game_manger.p;

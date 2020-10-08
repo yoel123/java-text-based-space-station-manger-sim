@@ -5,7 +5,7 @@ import helpers.IndexableMap;
 public class item_db {
 	
 	public static  IndexableMap<String,String> db;
-	
+	public static String ychar ="//";
 	public static void gen_items() 
 	{
 		//name,amount,paid,cost,min_price,max_price

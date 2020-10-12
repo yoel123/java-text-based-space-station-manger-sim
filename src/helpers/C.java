@@ -69,12 +69,12 @@ public final class C {
             pane.setBackground(Color.BLACK);
             pane.setForeground(Color.LIGHT_GRAY);
             pane.setCaretColor(Color.WHITE);
-            pane.setFont(new Font(defaultFont, Font.PLAIN, 12));
+            pane.setFont(new Font(defaultFont, Font.PLAIN, 15));
 
             // default prompt style
             promptStyle = new SimpleAttributeSet();
             StyleConstants.setFontFamily(promptStyle, defaultFont);
-            StyleConstants.setFontSize(promptStyle, 12);
+            StyleConstants.setFontSize(promptStyle, 15);
             StyleConstants.setForeground(promptStyle, Color.WHITE);
         }
 

@@ -36,6 +36,10 @@ public class game_manger implements Serializable {
 		//init player
 		p = new player();
 		p.credits = 1000;
+		//damage_system.add_damage("tst", 3);
+		//damage_system.random_damage();
+		//damage_system.add_damage("tst", 3);
+		//damage_system.add_damage("tst", 3);
 
 	}//end start_game
 	
@@ -56,7 +60,9 @@ public class game_manger implements Serializable {
 		
 		//update player
 		p.update_taxes();
-				
+		
+		//damages update
+		damage_system.update_damege_effects();
 		
 		//if owe personal payments
 		if(game_manger.p.s_personal.payments_owed>0) 

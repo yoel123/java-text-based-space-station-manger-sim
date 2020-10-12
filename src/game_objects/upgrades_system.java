@@ -79,12 +79,22 @@ public class upgrades_system {
 		for(String u:recsr) 
 		{
 			//if upgrade dosnt exist in player upgrades, failed to meet requirments
-			if(p.upgrades.lastIndexOf(u)==-1) {return false;}
+			if(p.upgrades.indexOf(u)==-1) {return false;}
 		}
 		
 		//else return true
 		return true;
 	}//end upgrade_requirement
+	
+	public static boolean have_upgrade(String name )
+	{
+		player p = game_manger.p;
+		//chack if damage effects
+		
+		//if have upgrade return true
+		if(p.upgrades.indexOf(name)==1) {return true;}
+		return false;
+	}//end have_upgrade
 	
 
 }

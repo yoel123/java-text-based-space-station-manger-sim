@@ -1,50 +1,55 @@
 package game_objects;
 
-import static javax.swing.JOptionPane.showMessageDialog;
-
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Random;
 
 import helpers.IndexableMap;
-import helpers.S;
 
 public class player implements Serializable{
 	
 	public int credits;
 	public ArrayList<item> items;
-	public ArrayList<String> events,upgrades,counters_list;
+	public ArrayList<String> events,upgrades,disabled_upgrades
+	,counters_list,damage_list;
 	public boolean insurance;
 	public int insurance_rate = 500,
 			taxes_owed,didnt_pay_taxes_c,didnt_pay_taxes_max=5
 			,station_secutity=0;
 	double tax_rate = 0.05;
-	boolean taxes_problem;
+	public boolean taxes_problem;
 	
 	int cargo=0,cargo_limit = 500;
 	
 	public  int turn;
 	
 	//long term events counters
-	public IndexableMap<String,Integer> counters ;
+	public IndexableMap<String,Integer> counters,rapairs_prograss ;
 	
 	//station personal object
 	public station_personal s_personal;
 	
+	//randog genrator 
+	public Random rndgen;
+	
 	public player() {
 		
+		
+		rndgen = new Random();
 		items = new ArrayList<item>();
 		events = new ArrayList<String>();
+		disabled_upgrades = new ArrayList<String>();
 		upgrades = new ArrayList<String>();
 		upgrades.add("tst");
 		counters_list = new ArrayList<String>();
 		counters = new IndexableMap<String,Integer>();
+		rapairs_prograss = new IndexableMap<String,Integer>();
+		damage_list = new ArrayList<String>();
 		turn=0;
 		add_counter("test",3);
 		
 		s_personal = new station_personal();
-
+		
 	}//end constructor
 	
 	////////////counters////////////
@@ -68,6 +73,7 @@ public class player implements Serializable{
 		
 		counters.remove(name+"_max");
 		int i = counters_list.indexOf(name);
+		if(i==-1) {return;}
 		counters_list.set(i, "yremove");
 	}//end remove_counter
 	
@@ -80,6 +86,9 @@ public class player implements Serializable{
 	
 	public void incrament_counter(String name) 
 	{
+		//counter dosnt exist return
+		if(counters.getKeyIndex(name+"_counter")==-1) {return;}
+		
 		int count = counters.get(name+"_counter").intValue()+1;
 		counters.replace(name+"_counter",count);
 	}//end reset_counter
@@ -88,6 +97,11 @@ public class player implements Serializable{
 	
 	public boolean is_counter_done(String name) 
 	{
+		
+		//counter dosnt exist return
+		if(counters.getKeyIndex(name+"_counter")==-1) {return false;}
+		
+		
 		int count = counters.get(name+"_counter").intValue()
 		,max = counters.get(name+"_max").intValue();
 		
@@ -272,7 +286,7 @@ public class player implements Serializable{
 			credits += s_personal.payments_owed*-1;
 		}
 		//remove long term event "worker_union_fine"
-		if(s_personal.payments_owed<=0 && n >200) 
+		if(s_personal.payments_owed<=0 || n >200) 
 		{
 			remove_counter("worker_union_fine");
 		}

@@ -58,8 +58,10 @@ public class station_info_screen extends gconsole_menu {
 		cio.println("--------------------");
 		cio.println("Current turn:"+game_manger.p.turn);
 		display_station_upgrades();
+		dameged_upgrades();
 		display_station_inventory();
 		display_station_long_events();
+		damege_list();
 	}//end display_player_data
 	
 	public void display_station_upgrades() {
@@ -71,9 +73,11 @@ public class station_info_screen extends gconsole_menu {
 	
 	public void display_station_long_events() {
 		cio.println("\n--Long Term Events--");
-		for(Object items:game_manger.p.counters_list) {
-			int event_turns_remaining = game_manger.p.counters.get(items.toString()+"_max")-game_manger.p.counters.get(items.toString()+"_counter");
-			cio.println(items.toString()+"::: turns remaining: "+event_turns_remaining);
+		for(String item:game_manger.p.counters_list) {
+			//check if counter exists (if not continue to next iteration of the loop)
+			if(game_manger.p.counters.getKeyIndex(item+"_counter")==-1) {continue;}
+			int event_turns_remaining = game_manger.p.counters.get(item+"_max")-game_manger.p.counters.get(item+"_counter");
+			cio.println(item+"::: turns remaining: "+event_turns_remaining);
 		};	
 	}//end display_station_long_events
 	
@@ -83,6 +87,24 @@ public class station_info_screen extends gconsole_menu {
 			cio.println(items.name.toString()+"::: amount: "+items.amount);
 		};
 	}//display_station_inventory
+	
+	public void dameged_upgrades() 
+	{
+		cio.println("\n--Station disabled upgrades--");
+		for(String upgrade:game_manger.p.disabled_upgrades) {
+			cio.println(upgrade);
+		};
+	}
+	
+	public void damege_list() 
+	{
+		cio.println("\n--Station damages--");
+		for(String upgrade:game_manger.p.damage_list) {
+			cio.println(upgrade);
+			cio.println("damage amount: "+game_manger.p.rapairs_prograss.get(upgrade));
+		};
+	}
+	
 
 	
 }

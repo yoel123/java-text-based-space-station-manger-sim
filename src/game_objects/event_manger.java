@@ -259,6 +259,12 @@ public class event_manger {
 			 //showMessageDialog(null, "pay workers!");
 		}
 		
+		if(name.equals("life_support")) 
+		{
+			//game over screen
+			//showMessageDialog(null, "life_support fired");
+		}
+		
 	}//end do_long_term_events
 	
 }//end event_manger

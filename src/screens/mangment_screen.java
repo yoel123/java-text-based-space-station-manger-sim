@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 import db.upgrades_db;
 import game_objects.game_manger;
 import game_objects.item;
+import game_objects.marketing_system;
 import game_objects.player;
 import game_objects.upgrades_system;
 import helpers.C.GUIConsoleIO;
@@ -27,6 +28,7 @@ public class mangment_screen extends gconsole_menu {
 				"upgrade station"
 				,"buy insurence"
 				,"taxes"
+				,"marketing"
 				,"personal"
 				,"station status report (stats)"
 
@@ -59,16 +61,27 @@ public class mangment_screen extends gconsole_menu {
 		if(next.equals("3")) {buy_insurence() ;}
 		//taxes
 		if(next.equals("4")) {pay_taxes() ;}
+		//marketing
+		if(next.equals("5")) {marketing_do();}
 		//personal
-		if(next.equals("5")) {personal_do();}
+		if(next.equals("6")) {personal_do();}
 		//all stats
-		if(next.equals("6")) {}
+		if(next.equals("7")) {}
 		
 		//if(messge != "") {messge="";}
 		
 		
 	}//end menu_user_input
 	
+	private void marketing_do() 
+	{
+		int choice = mini_menu(
+				"advertise goods//"
+				+ "advertise rent space//"
+				+ "advertise station attractions");
+		//advertise goods
+		if(choice==1) {messge = marketing_system.market_goods(cio, ui);}
+	}//end marketing_do
 	
 	private void show_upgrades() 
 	{

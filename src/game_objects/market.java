@@ -9,11 +9,15 @@ import helpers.S;
 
 public class market implements Serializable{
 	public ArrayList<item> items;
+	public IndexableMap<String,Integer> item_supply,item_demannd;
 
 	public market(IndexableMap<String,String> db)
 	{
 		items = new ArrayList<item>();
 		pupulate_items(db);
+		item_supply = new IndexableMap<String,Integer>();
+		item_demannd = new IndexableMap<String,Integer>();
+		
 	}//end constructor
 	
 	
@@ -30,14 +34,24 @@ public class market implements Serializable{
 	//change prices and amount of all items in market
 	public void supply_and_demend_gen()
 	{
-		int rand1,rand2;
+		int rand1,rand2,it_supply=0,it_demmand=0;
 		for(item it :items) 
 		{
-			rand1=(int)(Math.random()*10+1);
-			rand2=(int)(Math.random()*10+1);
+			
+			//check if item supply and demand exist
+			if(item_supply.containsKey(it.name)){it_supply = item_supply.get(it.name);}
+			else{it_supply = 0;}
+			if(item_demannd.containsKey(it.name)){it_demmand = item_demannd.get(it.name);}
+			else{it_demmand = 0;}
+			
+			//demmand (random+modifiers)
+			rand1=(int)(Math.random()*5+1)+it_demmand;
+			//supply (random+modifiers)
+			rand2=(int)(Math.random()*5+1)+game_manger.p.good_advertise+it_supply;
 			
 			int demand = rand1 * it.min_price;
 			if(demand >it.max_price) {demand = it.max_price;}
+			if(demand<0) {demand=0;}
 			it.cost = demand;
 			it.amount = rand2*10;
 		}

@@ -6,7 +6,7 @@ import helpers.yvars;
 
 public class item implements Serializable{
 
-	public String name;
+	public String name,item_type;
 	public int amount,you_paid,cost,min_price,max_price;
 	
 	boolean player_owned;
@@ -32,15 +32,17 @@ public class item implements Serializable{
 		cost = yvars.ystoint(datar[3]);
 		min_price = yvars.ystoint(datar[4]);
 		max_price = yvars.ystoint(datar[5]);
-	
+		item_type = datar[6];
 		
 	}//end constructor
 	
 	
 	public String toString()
 	{
+		int amount2 = amount;
+		if(amount2<0) {amount2=0;}
 		return name+" price:"+cost+" amount: "+
-			amount+" price range:"+min_price+" - "+max_price;
+		amount+" price range:"+min_price+" - "+max_price;
 	}//endtoString
 	
 	public void add_amount(int val) {amount+=val;}

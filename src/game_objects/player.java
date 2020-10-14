@@ -21,6 +21,8 @@ public class player implements Serializable{
 	
 	int cargo=0,cargo_limit = 500;
 	
+	public int good_advertise=0;
+	
 	public  int turn;
 	
 	//long term events counters
@@ -51,6 +53,13 @@ public class player implements Serializable{
 		s_personal = new station_personal();
 		
 	}//end constructor
+	
+	public void start_turn_reset() 
+	{	 //reset insurance
+		 insurance=false;
+		 //reset advertisements 
+		 good_advertise = 0;
+	}//end start_turn_reset
 	
 	////////////counters////////////
 	
@@ -192,6 +201,12 @@ public class player implements Serializable{
 		}
 		return ret;
 	}//end items_list
+	
+	public boolean can_buy(int cost) 
+	{
+		if(cost > credits ) {return false;}
+		return true;
+	}//end can_buy
 	
 	/////////end market/////////
 	

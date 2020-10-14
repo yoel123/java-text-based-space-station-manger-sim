@@ -29,18 +29,20 @@ public class game_manger implements Serializable {
 
 		init_dbs();
 		
-		//init market
-		m = new market(item_db.db);
-		m.supply_and_demend_gen();
+
 		
 		//init player
 		p = new player();
-		p.credits = 1000;
+		p.credits = 10000;
 		//damage_system.add_damage("tst", 3);
 		//damage_system.random_damage();
 		//damage_system.add_damage("tst", 3);
 		//damage_system.add_damage("tst", 3);
 
+		//init market
+		m = new market(item_db.db);
+		m.supply_and_demend_gen();
+		
 	}//end start_game
 	
 	
@@ -86,9 +88,8 @@ public class game_manger implements Serializable {
 			game_manger.p.credits += p.taxes_owed*-1;
 		}
 		
-		//reset insurence
-		game_manger.p.insurance=false;
-		
+		//stuff that need to reset every turn
+		game_manger.p.start_turn_reset();
 	}//end pass_turn
 
 	public static void save_game() 

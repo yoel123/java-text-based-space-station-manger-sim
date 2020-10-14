@@ -69,6 +69,22 @@ public class gconsole_menu {
 		cio.println(o,pc);
 	}//end yp
 	
+	public int mini_menu(String options) 
+	{
+		gyinput ui = new gyinput(cio);
+		int i =1;
+		int choice =0;
+		String[] optionsr = options.split("//");
+		for(String s :optionsr) 
+		{
+			cio.println(i+") "+s);
+			i++;
+		}
+		
+		choice = ui.get_int("");
+		return choice;
+	}//end mini_menu
+	
 	
 }
 

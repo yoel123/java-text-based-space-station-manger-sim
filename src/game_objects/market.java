@@ -45,13 +45,16 @@ public class market implements Serializable{
 			else{it_demmand = 0;}
 			
 			//demmand (random+modifiers)
-			rand1=(int)(Math.random()*5+1)+it_demmand;
+			rand1=(int)(Math.random()*6+1)+it_demmand;
 			//supply (random+modifiers)
 			rand2=(int)(Math.random()*5+1)+game_manger.p.good_advertise+it_supply;
+			
+			if(rand1>10) {rand1=10;}//cant be bigger then 100%
 			
 			int demand = rand1 * it.min_price;
 			if(demand >it.max_price) {demand = it.max_price;}
 			if(demand<0) {demand=0;}
+	
 			it.cost = demand;
 			it.amount = rand2*10;
 		}

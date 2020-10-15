@@ -30,7 +30,7 @@ public class mangment_screen extends gconsole_menu {
 				,"taxes"
 				,"marketing"
 				,"personal"
-				,"station status report (stats)"
+			//	,"station status report (stats)"
 
 				};
 		ui = new gyinput(cio2);
@@ -87,9 +87,11 @@ public class mangment_screen extends gconsole_menu {
 	{
 		
 		cio.println("select option:(0 to return)");
-		cio.println("1)show upgrades");
-		cio.println("2)buy upgrades");
-		int choice = ui.get_int("");
+
+		int choice = mini_menu(
+				"show upgrades//"
+				+ "buy upgrades"
+			);
 		if(choice ==1) {upgrades_list();show_upgrades();}
 		if(choice ==2) {buy_upgrades();}
 		
@@ -156,11 +158,26 @@ public class mangment_screen extends gconsole_menu {
 		int owed = game_manger.p.s_personal.payments_owed;
 		cio.println("payments you owe to station personal: "+owed);
 		
-		cio.println("1)hire personal");
-		cio.println("2)pay salery");
-		cio.println("3)fire personal");
+		int choice = mini_menu(
+				"hire personal//"
+				+ "pay salery//"
+				+ "fire personal//"
+				+ "(0 to return)");
 		
-		int choice = ui.get_int("(0 to return)");
+		//1)hire personal
+		if(choice ==1) 
+		{
+			//get personal as list
+			String plist =game_manger.p.s_personal.personal_list();
+			cio.print(plist);//print it 
+			//get player type choice and amount he wants to hire
+			int ptype = ui.get_int("select the type of personal you want to hire?");
+			int amount = ui.get_int("how meany you want to hire?");
+			//
+			boolean ydo = game_manger.p.hire_personal(ptype, amount);
+			if(ydo) {messge= "hierd personal";}
+			else {messge="failed to hire personal";}
+		}//end 1
 		
 		//2)pay salery
 		if(choice ==2) {
@@ -174,6 +191,20 @@ public class mangment_screen extends gconsole_menu {
 			
 		}//end if 2 pay salery
 		
+		//3)fire personal
+		if(choice ==3) 
+		{
+			//get personal as list
+			String plist =game_manger.p.s_personal.personal_list();
+			cio.print(plist);//print it 
+			//get player type choice and amount he wants to hire
+			int ptype = ui.get_int("select the type of personal you want to fire?");
+			int amount = ui.get_int("how meany you want to fire?");
+			//
+			boolean ydo = game_manger.p.fire_personal(ptype, amount);
+			if(ydo) {messge= "fierd personal";}
+			else {messge="failed to fire personal";}
+		}
 		
 		
 		

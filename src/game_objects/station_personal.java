@@ -17,7 +17,7 @@ public class station_personal implements Serializable{
 		plist = new IndexableMap<String,character>();
 		
 		create_personal("guards", 2,300);
-		create_personal("genral_workers", 10,100);
+		create_personal("general_workers", 10,100);
 		create_personal("engineers", 1,500);
 		
 	}//end constructor
@@ -52,6 +52,46 @@ public class station_personal implements Serializable{
 		
 	    plist.replace(name,c);
 	}//end remove_personal
+	
+	public character get_personal(String type)
+	{
+		//if not exist return null
+		if(plist.getKeyIndex(type)==-1) {return null;}
+		
+		return plist.get(type);
+	}//end get_personal
+	
+	
+	public String personal_list() 
+	{
+		String ret = "";//string to return
+		
+		int salery = 0;
+		String pname;//personal name
+		character c;
+		
+		int i = 1;
+		//loop all personal
+		for (Entry<String, character> m : plist.entrySet()) 
+		{
+			//get current charecter
+			c = m.getValue();
+			//add charecter salery to allsalery
+			salery = c.stats.get("salery");
+			
+			pname = m.getKey();//the maps key is personals name
+			
+			//add to ret
+			ret += i+") "+pname+"| salery:"+salery
+					+"| current hired:"+c.stats.get("amount")+"\n";
+			
+			i++;
+		}
+		
+		return ret;
+	}//end personal_list
+	
+	
 	
 	//per turn salary for all workers
 	public int calculate_salery() 

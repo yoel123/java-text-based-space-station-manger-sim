@@ -3,6 +3,7 @@ package screens;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import db.event_db;
 import game_objects.event_manger;
 import game_objects.game_manger;
 import helpers.C.GUIConsoleIO;
@@ -76,7 +77,7 @@ public class game_main extends gconsole_menu {
 		String[] er;
 		for(String e :events) 
 		{
-			er=e.split("//");
+			er=e.split(event_db.ychar);
 			S.o(i+") "+er[0]);
 			//S.o(Arrays.toString(er));
 			i++;

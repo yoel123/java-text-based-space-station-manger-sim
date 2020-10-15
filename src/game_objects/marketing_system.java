@@ -25,7 +25,7 @@ public class marketing_system {
 		
 		int choice = ui.get_int("");
 		
-		int cost = choice *2000;
+		int cost = choice *1000;
 		
 		//can buy marketing and didnt buy this turn and choice is less then 7
 		if(game_manger.p.can_buy(cost) && game_manger.p.good_advertise ==0 && choice<=7 ) 

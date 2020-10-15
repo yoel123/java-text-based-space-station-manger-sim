@@ -3,7 +3,7 @@ package game_objects;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
-
+import static javax.swing.JOptionPane.showMessageDialog;
 import helpers.IndexableMap;
 
 public class player implements Serializable{
@@ -14,12 +14,12 @@ public class player implements Serializable{
 	,counters_list,damage_list;
 	public boolean insurance;
 	public int insurance_rate = 500,
-			taxes_owed,didnt_pay_taxes_c,didnt_pay_taxes_max=5
+			taxes_owed,didnt_pay_taxes_c,didnt_pay_taxes_max=10
 			,station_secutity=0;
 	double tax_rate = 0.05;
 	public boolean taxes_problem;
 	
-	int cargo=0,cargo_limit = 500;
+	int cargo=0,cargo_limit = 500,cargo_for_rent=0,rented_cargo=0;
 	
 	public int good_advertise=0;
 	
@@ -230,14 +230,24 @@ public class player implements Serializable{
 	public void update_taxes() 
 	{
 		//incrament how long player didnt pay taxes
-		if(taxes_owed>0) {didnt_pay_taxes_c++;}
-		//if player didn't pay taxes for 12 turns give him a warning
-		if(didnt_pay_taxes_c>10) 
+		if(taxes_owed>0) 
+		{
+			//counter is add just so player can see it in station info
+			//it dosnt do anything.
+			add_counter_once("tax_fine",didnt_pay_taxes_max-1);//add acounter
+			didnt_pay_taxes_c++;
+		}
+		
+		
+		//if player didn't pay taxes  give him a warning 1 turn before his fined
+		if(didnt_pay_taxes_c==didnt_pay_taxes_max-1) 
 		{
 			events.add("**notice! this is your final notice pay your taxes"
 					+ " or your assets would be liquidated");
 			
 		}
+		
+		//implament later
 		//if player didnt heed warning give him problems
 		if(didnt_pay_taxes_c>13) 
 		{
@@ -248,8 +258,10 @@ public class player implements Serializable{
 		if(didnt_pay_taxes_c>didnt_pay_taxes_max) 
 		{
 			taxes_owed +=2000;
-			events.add("notice!,0,your late on your tax payments and got fined "
+			events.add("**notice!,0,your late on your tax payments and got fined "
 					+ " please pay your taxes on time");
+			didnt_pay_taxes_c=0;//reset counter
+			remove_counter("tax_fine");//remove counter from counter list
 		}
 	}//end  update_taxes
 	
@@ -259,7 +271,9 @@ public class player implements Serializable{
 		
 		credits -= amount;
 		taxes_owed -= amount;
+		if(taxes_owed>200 && amount<200) {return true;}//reset only if paid more then 200
 		didnt_pay_taxes_c = 0;
+		remove_counter("tax_fine");//remove counter from counter list
 		
 		return true;
 		
@@ -308,10 +322,55 @@ public class player implements Serializable{
 		return true;
 	}//end pay_sallery
 	
-	public boolean hire_personal(String type,int n){return false;}//end hire_personal
+
+	public boolean hire_personal(int type,int n)
+	{
+		//IndexableMap when index ==size
+		if(type==s_personal.plist.size()) {type = 0;}
+		//get key by index
+		String stype = s_personal.plist.getKeyAt(type);
+		return hire_personal(stype,n);
+	}
+	public boolean hire_personal(String type,int n)
+	{
 	
-	public boolean fire_personal(String type,int n){return false;}//end fire_personal
+		//get personal you want to buy
+		character c = s_personal.plist.get(type);
+		//if dosnt exist return falase
+		if(c==null) {return false;}
+		//cost is the number of personal you want to buy multiplied by their salary
+		//per turn, thats the recruitment cost
+		int cost = n*c.stats.get("salery").intValue();
+		//player dosnt have the credits to pay exit
+		if(cost>credits) {return false;}
+		//remove credits
+		credits -= cost;
+		//add the personal to station personal
+		s_personal.add_personal( type, n);
+		
+		return true;
+	}//end hire_personal
 	
+	public boolean fire_personal(int type,int n)
+	{
+		//IndexableMap when index ==size
+		if(type==s_personal.plist.size()) {type = 0;}
+		//get key by index
+		String stype = s_personal.plist.getKeyAt(type);
+		return fire_personal(stype,n);
+	}
+	public  boolean fire_personal(String type,int n)
+	{
+		//get personal you want to fire
+		character c = s_personal.plist.get(type);
+		//if dosnt exist return falase
+		if(c==null) {return false;}
+		
+		//remoove personal
+		s_personal.remove_personal( type, n);
+		
+		return true;
+	}//end fire_personal
 	
 	///////end personal////////
 	

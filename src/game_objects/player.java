@@ -15,9 +15,9 @@ public class player implements Serializable{
 	public boolean insurance;
 	public int insurance_rate = 500,
 			taxes_owed,didnt_pay_taxes_c,didnt_pay_taxes_max=10
-			,station_secutity=0;
+			,station_secutity=0,skipd_maintenance = 0;
 	double tax_rate = 0.05;
-	public boolean taxes_problem;
+	public boolean taxes_problem,did_maintenance;
 	
 	int cargo=0,cargo_limit = 500,cargo_for_rent=0,rented_cargo=0;
 	
@@ -59,6 +59,8 @@ public class player implements Serializable{
 		 insurance=false;
 		 //reset advertisements 
 		 good_advertise = 0;
+		 //reset maintenence
+		 did_maintenance = false;
 	}//end start_turn_reset
 	
 	////////////counters////////////
@@ -373,6 +375,43 @@ public class player implements Serializable{
 	}//end fire_personal
 	
 	///////end personal////////
+	
+	
+	///////maintenance//////
+	public void do_maintenance() 
+	{
+		//get supplies
+		item supply = get_item("supplies");
+		
+		//if no supplies exit
+		if(supply ==null) {return;}
+		
+		//get engeners
+		character engineers = s_personal.plist.get("engineers");
+		
+		//maintenence supply cost (ninmum of 3 plus upgrades)
+		int maintenance_cost = upgrades.size()+3;
+		
+		//no engineers, no maintenance
+		if(engineers.stats.get("amount").intValue()<=0) {return;}
+		
+		//reduce maintenance by engineers num (by 2 if you have more then 6
+		if(engineers.stats.get("amount").intValue()>6) {maintenance_cost -=2;}
+		
+		//check if you have the supplies to mentain the station
+		if(maintenance_cost>supply.amount) {return;}
+		
+		//reduce supplies
+		supply.amount -= maintenance_cost;
+		
+		//set did_maintenance to true
+		did_maintenance = true;
+		
+		//stop no maintenance malfunction counter
+		remove_counter("no_maintenance_malfunction");
+		
+	}//end do_maintenance
+	///////maintenance//////
 	
 
 

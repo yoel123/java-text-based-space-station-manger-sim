@@ -40,7 +40,7 @@ public class upgrades_system {
 		}//end for
 		
 		//get the upgrade the player wants to buy
-		int choice = ui.get_int("select upgrade to buy (enter to return)");
+		int choice = ui.get_int("select upgrade to buy (0 to return)");
 		
 		//check for potential errors (validate input)
 		if(choice ==0 || choice<0 || udb.getKeyAt(choice-1) ==null)

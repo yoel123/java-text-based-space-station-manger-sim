@@ -136,10 +136,9 @@ public class event_manger {
 				, "mtest2"
 				, "mtest3"
 			};
-			int rnd_upgrade = (int)Math.random()*upgrades.length;
+			int rnd_upgrade = game_manger.p.rndgen.nextInt(upgrades.length) ;
 			String upgrade = upgrades[rnd_upgrade];
-			int upgrade_amount = (int)(Math.random()*10+1); //Not sure what valid ranges should be
-			
+
 			//showMessageDialog(null,rnd_upgrade+" "+upgrade_amount);
 			
 			//Ask player if they agree to the deal
@@ -148,8 +147,6 @@ public class event_manger {
 			String answer = ui.get_string(upgrades_offer);
 
 			//Is a bad upgrade
-			int rnd_damage_multiplier; // Not sure what range for random should be
-			int station_damage; // To be calculated when station damage amount ranges are known
 			String message = "Your station took a catastrophic blow, the crazy"
 					+ " inventor's upgrade fails!";
 			
@@ -158,9 +155,16 @@ public class event_manger {
 			{
 
 				//check if upgrades are a flop and cause damage... TBD
+				int flop = game_manger.p.rndgen.nextInt(10)+1;
+				//40% chance
+				if(flop>6) 
+				{
+					damage_system.random_damage();
+					return message;
+				}
 				
 				//check if can afford upgrades
-				if(game_manger.p.buy_upgrade(upgrade, upgrade_amount)) 
+				if(game_manger.p.buy_upgrade(upgrade, 500)) 
 				{
 					cio.println("Upgrades Applied");
 					message = "Upgrades Applied";
@@ -216,6 +220,19 @@ public class event_manger {
 			ret = desc;
 		}//end money_reduce
 		
+		if(action.equals("station_damege")) 
+		{
+			//if you have insurance they cover it
+			if(p.insurance)
+			{
+				desc =" [insurence cancels this event] "+desc;
+			}else
+			{
+				damage_system.random_damage();
+				ret = desc;
+			}
+		}
+		
 		return ret;
 	}//end do_immidiate
 	
@@ -263,6 +280,12 @@ public class event_manger {
 		{
 			//game over screen
 			//showMessageDialog(null, "life_support fired");
+		}
+		
+		if(name.equals("no_maintenance_malfunction")) 
+		{
+			damage_system.random_damage();
+			game_manger.p.remove_counter(name);
 		}
 		
 	}//end do_long_term_events

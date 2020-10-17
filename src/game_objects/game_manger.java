@@ -88,6 +88,12 @@ public class game_manger implements Serializable {
 			game_manger.p.credits += p.taxes_owed*-1;
 		}
 		
+		//do maintenance
+		game_manger.p.do_maintenance();
+		
+		//no maintenance? start malfunction counter
+		if(!p.did_maintenance) {p.add_counter_once("no_maintenance_malfunction", 4);}
+		
 		//stuff that need to reset every turn
 		game_manger.p.start_turn_reset();
 	}//end pass_turn

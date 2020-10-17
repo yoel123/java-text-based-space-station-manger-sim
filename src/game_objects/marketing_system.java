@@ -20,11 +20,13 @@ public class marketing_system {
 		
 		
 		
-		
+		//just incase somthing goes wrong
 		String fail_msg = "failed to buy marketing not enogh credits or alrady bought";
 		
+		//the marketing the player selects
 		int choice = ui.get_int("");
 		
+		//the marketing cost
 		int cost = choice *1000;
 		
 		//can buy marketing and didnt buy this turn and choice is less then 7

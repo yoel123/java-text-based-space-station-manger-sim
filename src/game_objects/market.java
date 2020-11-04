@@ -4,20 +4,27 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
+import db.ship_db;
+import db.weapons_db;
 import helpers.IndexableMap;
 import helpers.S;
 
 public class market implements Serializable{
 	public ArrayList<item> items;
+	public ArrayList<ship> ships;
+	public ArrayList<weapon> weapons;
 	public IndexableMap<String,Integer> item_supply,item_demannd;
 
 	public market(IndexableMap<String,String> db)
 	{
 		items = new ArrayList<item>();
-		pupulate_items(db);
+		
 		item_supply = new IndexableMap<String,Integer>();
 		item_demannd = new IndexableMap<String,Integer>();
+		ships = new ArrayList<ship>();
+		weapons = new ArrayList<weapon>();
 		
+		pupulate_items(db);
 	}//end constructor
 	
 	
@@ -29,7 +36,41 @@ public class market implements Serializable{
 			
 			items.add(new item(me.getValue()));
 		}
+		
+		pupulate_ships_and_weapons();
+		
 	}//end pupulate_items
+	
+	public void pupulate_ships_and_weapons() 
+	{
+		IndexableMap<String,String> sipsdb = ship_db.db;
+		IndexableMap<String,String> weapondb = weapons_db.db;
+		weapon w;
+		ship s;
+		//add weapons
+		for (Entry<String, String> me : weapondb.entrySet()) 
+		{
+			w = new weapon(me.getValue());
+	
+			//only common weapons in market
+			if(w.rarity.equals("common")) 
+			{
+				weapons.add(w);
+			}
+			
+		}//end add weapons
+		
+		for (Entry<String, String> me : sipsdb.entrySet()) 
+		{
+			s= new ship(me.getValue());
+			//only civilian or military no spacial or faction only etc
+			if(s.ship_type.equals("civilian") || s.ship_type.equals("military")) 
+			{
+				ships.add(s);
+			}
+		}
+		
+	}//end pupulate_ships_and_weapons
 	
 	//change prices and amount of all items in market
 	public void supply_and_demend_gen()
@@ -57,8 +98,21 @@ public class market implements Serializable{
 	
 			it.cost = demand;
 			it.amount = rand2*10;
-		}
+		}//end for items
+		
+		supply_and_demend_gen_weapons();
 	}//end supply_and_demend_gen
+	
+	public void supply_and_demend_gen_weapons()
+	{
+		for(weapon w:weapons) 
+		{
+			//demmand (random+modifiers)
+			int rand1=(int)(Math.random()*10);
+			
+			w.amount = rand1;
+		}
+	}//end supply_and_demend_gen_weapons
 	
 	//return a string of all items as a numbered list
 	public String display_all()
@@ -85,6 +139,7 @@ public class market implements Serializable{
 	{
 		int i=0;
 		item temp;
+		
 		for(item it:p.items) 
 		{
 			//get market item by current item name
@@ -93,6 +148,15 @@ public class market implements Serializable{
 			it.cost = temp.cost;
 			i++;
 		}
+		
+		weapon tw;
+		for(weapon wp:p.sm.weapons) 
+		{
+			tw= get_weapon(wp.name);
+			wp.cost = tw.cost;
+		}
+		
+		
 		
 	}//update_player_item_price
 	
@@ -105,6 +169,17 @@ public class market implements Serializable{
 		}
 		return null;
 	}//end get_item
+	
+	
+	//get weapon by name
+	public weapon get_weapon(String name) 
+	{
+		for(weapon it:weapons)
+		{
+			if(it.name.equals(name)) {return it;}
+		}
+		return null;
+	}//end get_weapon
 	
 	
 	

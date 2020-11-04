@@ -97,7 +97,7 @@ public class market_screen extends gconsole_menu {
 		if(inum==0) {return;}
 		int amount = ui.get_int("select amount to buy");
 		
-		if(inum-1>game_manger.m.items.size()) {S.o("item not found"); return;}
+		if(inum-1>game_manger.m.items.size()) {messge="item not found"; return;}
 		
 		item it = game_manger.m.items.get(inum-1);
 		it.you_paid = it.cost;

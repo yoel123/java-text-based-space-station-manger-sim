@@ -30,7 +30,7 @@ public class mangment_screen extends gconsole_menu {
 				,"taxes"
 				,"marketing"
 				,"personal"
-			//	,"station status report (stats)"
+				,"station security ships and weapons"
 
 				};
 		ui = new gyinput(cio2);
@@ -40,6 +40,8 @@ public class mangment_screen extends gconsole_menu {
 
 	@Override
 	public void menu_show() {
+		
+		cio.println(game_manger.p.show_stats(),pc);
 		
 		cio.println("----station management-----");
 		super.menu_show();
@@ -65,8 +67,8 @@ public class mangment_screen extends gconsole_menu {
 		if(next.equals("5")) {marketing_do();}
 		//personal
 		if(next.equals("6")) {personal_do();}
-		//all stats
-		if(next.equals("7")) {}
+		//station security ships and weapons
+		if(next.equals("7")) {gm.change_menu("station_security_screen");}
 		
 		//if(messge != "") {messge="";}
 		
@@ -155,26 +157,29 @@ public class mangment_screen extends gconsole_menu {
 	
 	public void personal_do() 
 	{
-		int owed = game_manger.p.s_personal.payments_owed;
+		player p = game_manger.p;
+		int owed = p.s_personal.payments_owed;
 		cio.println("payments you owe to station personal: "+owed);
 		
 		int choice = mini_menu(
 				"hire personal//"
 				+ "pay salery//"
 				+ "fire personal//"
+				+ "hire character//"
+				+ "view characters//"
 				+ "(0 to return)");
 		
 		//1)hire personal
 		if(choice ==1) 
 		{
 			//get personal as list
-			String plist =game_manger.p.s_personal.personal_list();
+			String plist =p.s_personal.personal_list();
 			cio.print(plist);//print it 
 			//get player type choice and amount he wants to hire
 			int ptype = ui.get_int("select the type of personal you want to hire?");
 			int amount = ui.get_int("how meany you want to hire?");
 			//
-			boolean ydo = game_manger.p.hire_personal(ptype, amount);
+			boolean ydo = p.hire_personal(ptype, amount);
 			if(ydo) {messge= "hierd personal";}
 			else {messge="failed to hire personal";}
 		}//end 1
@@ -184,7 +189,7 @@ public class mangment_screen extends gconsole_menu {
 			int amount_to_pay = ui.get_int("enter payment:");
 			
 			//reduce payments owed
-			if(game_manger.p.pay_sallery(amount_to_pay)) 
+			if(p.pay_sallery(amount_to_pay)) 
 			{
 				messge="you paied "+amount_to_pay+" to station personal";
 			}else {messge="payment faield";}
@@ -204,6 +209,19 @@ public class mangment_screen extends gconsole_menu {
 			boolean ydo = game_manger.p.fire_personal(ptype, amount);
 			if(ydo) {messge= "fierd personal";}
 			else {messge="failed to fire personal";}
+		}
+		
+		//4)hire character
+		if(choice ==4) 
+		{
+			cio.print(p.s_personal.charecter_for_hire_list());
+			int cselect = ui.get_int("select a charecter (0 to exit)");
+			if(cselect ==0) {return;}
+		}
+		//5) "view characters
+		if(choice ==5) 
+		{
+			
 		}
 		
 		

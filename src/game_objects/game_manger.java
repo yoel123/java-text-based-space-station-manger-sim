@@ -3,9 +3,13 @@ package game_objects;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import db.character_db;
 import db.event_db;
 import db.item_db;
+import db.ship_db;
 import db.upgrades_db;
+import db.weapons_db;
+import helpers.S;
 import helpers.ydb_s;
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -23,6 +27,13 @@ public class game_manger implements Serializable {
 		event_db.gen_events();
 		//init upgrades
 		upgrades_db.gen_upgrades();
+		//init weapons
+		weapons_db.gen_weapons();
+		//init ships
+		ship_db.gen_ships();
+		//init charecters
+		character_db.gen_traits();
+
 	}
 	public static void start_game() 
 	{
@@ -33,15 +44,21 @@ public class game_manger implements Serializable {
 		
 		//init player
 		p = new player();
-		p.credits = 10000;
+		p.credits = 100000;
 		//damage_system.add_damage("tst", 3);
 		//damage_system.random_damage();
 		//damage_system.add_damage("tst", 3);
 		//damage_system.add_damage("tst", 3);
+		
+		//add heavy shuttle
+		p.sm.ships.add( new ship( ship_db.db.getValueAt(0) ) );
 
 		//init market
 		m = new market(item_db.db);
 		m.supply_and_demend_gen();
+		
+		//gen charecter for hire list
+		game_manger.p.s_personal.gen_charecter_for_hire_list();
 		
 	}//end start_game
 	
@@ -96,6 +113,10 @@ public class game_manger implements Serializable {
 		
 		//stuff that need to reset every turn
 		game_manger.p.start_turn_reset();
+		
+		//charecters update
+		game_manger.p.s_personal.gen_charecter_for_hire_list();
+		game_manger.p.s_personal.update_charecters();
 	}//end pass_turn
 
 	public static void save_game() 

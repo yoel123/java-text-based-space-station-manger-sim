@@ -2,11 +2,11 @@ package main;
 
 import helpers.C;
 import helpers.C.GUIConsoleIO;
-import helpers.S;
 import helpers.gmenu_manger;
 import screens.game_main;
 import screens.mangment_screen;
 import screens.market_screen;
+import screens.security_screen;
 import screens.start_menu;
 import screens.station_info_screen;
 
@@ -34,6 +34,8 @@ public class ymain {
 		
 		station_info_screen inf = new station_info_screen(cio);
 		
+		security_screen ysm = new security_screen(cio);
+		
 		//add menus to gmenu_manger
 		gm.add_menu("start", tst);
 		
@@ -44,6 +46,8 @@ public class ymain {
 		gm.add_menu("station_mangment_screen", mng);
 		
 		gm.add_menu("station_info_screen", inf);
+		
+		gm.add_menu("station_security_screen", ysm);
 		
 		//chane to start menu and run game
 		gm.change_menu("start");

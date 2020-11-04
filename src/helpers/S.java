@@ -1,4 +1,5 @@
 package helpers;
+import static javax.swing.JOptionPane.showMessageDialog;
 public class S
 {
 	public static void o(Object s)
@@ -6,6 +7,10 @@ public class S
 		System.out.println(s);
 	}
 	
+	public static void m(Object s) 
+	{
+		showMessageDialog(null,s);
+	}
 
 	
 }

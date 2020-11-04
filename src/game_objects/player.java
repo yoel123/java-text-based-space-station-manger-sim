@@ -15,9 +15,9 @@ public class player implements Serializable{
 	public boolean insurance;
 	public int insurance_rate = 500,
 			taxes_owed,didnt_pay_taxes_c,didnt_pay_taxes_max=10
-			,station_secutity=0,skipd_maintenance = 0;
+			,station_secutity=0,skipd_maintenance = 0,workers_needed=10;
 	double tax_rate = 0.05;
-	public boolean taxes_problem,did_maintenance;
+	public boolean taxes_problem,did_maintenance,not_enough_workers;
 	
 	int cargo=0,cargo_limit = 500,cargo_for_rent=0,rented_cargo=0;
 	
@@ -30,6 +30,9 @@ public class player implements Serializable{
 	
 	//station personal object
 	public station_personal s_personal;
+	
+	//station security
+	public security_manger sm;
 	
 	//randog genrator 
 	public Random rndgen;
@@ -51,6 +54,8 @@ public class player implements Serializable{
 		add_counter("test",3);
 		
 		s_personal = new station_personal();
+		
+		sm = new security_manger();
 		
 	}//end constructor
 	
@@ -124,6 +129,9 @@ public class player implements Serializable{
      ////////////end counters////////////
 	
 	/////////market/////////
+	
+
+	
 	//buy item
 	public boolean buy(item it,int amount)
 	{
@@ -131,7 +139,9 @@ public class player implements Serializable{
 		
 		//check if theres enough credits and the amount is not bigger then
 		//Available amount
-		if(cost > credits || amount > it.amount) {return false;}
+		//if(cost > credits || amount > it.amount) {return false;}
+		
+		if(!can_buy(cost ,credits , amount , it.amount)) {return false;}
 		
 		//if no room in cargo
 		if((amount+cargo)>cargo_limit) {return false;}
@@ -179,7 +189,7 @@ public class player implements Serializable{
 		//reduce cargo amount
 		cargo-=amount;
 		return true;
-	}
+	}//end sell
 	
 	//get player item by name
 	public item get_item(String name) 
@@ -207,6 +217,12 @@ public class player implements Serializable{
 	public boolean can_buy(int cost) 
 	{
 		if(cost > credits ) {return false;}
+		return true;
+	}//end can_buy
+	
+	public boolean can_buy(int cost,int credits,int amount,int max_amount) 
+	{
+		if(cost > credits || amount > max_amount) {return false;}
 		return true;
 	}//end can_buy
 	
@@ -380,6 +396,16 @@ public class player implements Serializable{
 	///////maintenance//////
 	public void do_maintenance() 
 	{
+		
+		//check if thers enough workers
+		
+		character workers = s_personal.plist.get("general_workers");
+		
+		if(workers.stats.get("amount")<workers_needed)
+		{not_enough_workers=true;}
+		
+		///check maintenence
+		
 		//get supplies
 		item supply = get_item("supplies");
 		
@@ -389,8 +415,8 @@ public class player implements Serializable{
 		//get engeners
 		character engineers = s_personal.plist.get("engineers");
 		
-		//maintenence supply cost (ninmum of 3 plus upgrades)
-		int maintenance_cost = upgrades.size()+3;
+		//maintenence supply cost (minmum of 3 plus upgrades)
+		int maintenance_cost = upgrades.size()+3/5;
 		
 		//no engineers, no maintenance
 		if(engineers.stats.get("amount").intValue()<=0) {return;}

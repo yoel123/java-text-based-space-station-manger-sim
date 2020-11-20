@@ -26,9 +26,11 @@ public class character_db {
 		constable_traits.add("plasma pistol");
 		constable_traits.add("spec ops");
 		constable_traits.add("detective");
+		constable_traits.add("toxc personality");
 		
 		acountent_traits.add("financial planner");
 		acountent_traits.add("bean counter");
+		acountent_traits.add("connections");
 		
 		
 		

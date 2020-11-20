@@ -2,17 +2,14 @@ package screens;
 
 import java.util.Map.Entry;
 
-import db.upgrades_db;
+import game_objects.character;
 import game_objects.game_manger;
-import game_objects.item;
 import game_objects.marketing_system;
 import game_objects.player;
 import game_objects.upgrades_system;
 import helpers.C.GUIConsoleIO;
-import helpers.IndexableMap;
 import helpers.gconsole_menu;
 import helpers.gyinput;
-import helpers.yvars;
 
 /*
  * station mangment screen where the player can upgrade,
@@ -167,6 +164,7 @@ public class mangment_screen extends gconsole_menu {
 				+ "fire personal//"
 				+ "hire character//"
 				+ "view characters//"
+				+ "fire character//"
 				+ "(0 to return)");
 		
 		//1)hire personal
@@ -217,12 +215,46 @@ public class mangment_screen extends gconsole_menu {
 			cio.print(p.s_personal.charecter_for_hire_list());
 			int cselect = ui.get_int("select a charecter (0 to exit)");
 			if(cselect ==0) {return;}
-		}
+			//get charecter by id
+			character ychar = p.s_personal.for_hire.get(cselect-1);
+			//show stats
+			cio.print(ychar.show_stats());
+			
+			String buy = ui.get_string("buy charecter? (y/n)");
+			if(buy.equals("n")) {return;}
+			
+			if(buy.equals("y")) 
+			{
+				//if player has credits add to hierd charecter personal
+				if(p.can_buy(ychar.stats.get("salery"))) 
+				{
+					p.s_personal.plist.put(ychar.title, ychar);
+					//remove from for hire
+					p.s_personal.for_hire.remove(ychar);
+				}
+			}
+			
+		}//end buy charecter
 		//5) "view characters
 		if(choice ==5) 
 		{
+			character c;
+			for (Entry<String, character> me : p.s_personal.plist.entrySet()) 
+			{
+				c = me.getValue();
+				//make sure its charecter
+				if(c.stats.get("rank")!=null) 
+				{
+					cio.print("//////////"+c.name+"////////////\n");
+					cio.print(c.show_stats());
+					cio.print("//////////////////////\n");
+				}
+			}
 			
-		}
+			//wait for user input
+			String select_c = ui.get_string("presss enter to continue...");
+			
+		}//end vew charecters
 		
 		
 		

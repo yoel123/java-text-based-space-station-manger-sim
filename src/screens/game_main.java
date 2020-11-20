@@ -26,6 +26,7 @@ public class game_main extends gconsole_menu {
 				,"events"
 				,"pass turn"
 				,"save game"
+				,"test combat"
 				};
 		ui = new gyinput(cio2);
 	}//end constructor
@@ -65,6 +66,8 @@ public class game_main extends gconsole_menu {
 		//save game
 		if(next.equals("6")) {game_manger.save_game(); messge ="saved game";}
 		
+		//test combat
+		if(next.equals("7")) {messge ="kaboom! kapow!";}
 		
 				
 				

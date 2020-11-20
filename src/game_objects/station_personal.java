@@ -144,9 +144,17 @@ public class station_personal implements Serializable{
 		for_hire = new ArrayList<character>();
 		
 		character chief_engineer = new character();
+		character constable = new character();
+		character acountent = new character();
+		
 		chief_engineer.gen_base_char("chief engineer");
+		constable.gen_base_char("constable");
+		acountent.gen_base_char("acountent");
 		
 		for_hire.add(chief_engineer);
+		for_hire.add(constable);
+		for_hire.add(acountent);
+		
 	}//end gen_charecter_for_hire_list
 	
 	public String charecter_for_hire_list() 

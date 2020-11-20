@@ -416,7 +416,10 @@ public class player implements Serializable{
 		character engineers = s_personal.plist.get("engineers");
 		
 		//maintenence supply cost (minmum of 3 plus upgrades)
-		int maintenance_cost = upgrades.size()+3/5;
+		int maintenance_cost = upgrades.size()/5+1;
+		
+		//Chief engineer reduces supply
+		if(s_personal.plist.containsKey("chief engineer")) {maintenance_cost--;}
 		
 		//no engineers, no maintenance
 		if(engineers.stats.get("amount").intValue()<=0) {return;}
@@ -427,9 +430,12 @@ public class player implements Serializable{
 		//check if you have the supplies to mentain the station
 		if(maintenance_cost>supply.amount) {return;}
 		
+		//min maintenance_cost is 1
+		if(maintenance_cost<0) {maintenance_cost=1;}
+		
 		//reduce supplies
 		supply.amount -= maintenance_cost;
-		
+		cargo -= maintenance_cost;
 		//set did_maintenance to true
 		did_maintenance = true;
 		

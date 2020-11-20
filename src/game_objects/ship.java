@@ -35,7 +35,11 @@ public class ship implements Serializable{
 	
 	//ship subsystems and damages
 	
+	public boolean destroyed;
+	
 	public ship(String data) {
+		ship_weapons =new ArrayList<weapon>(); 
+		
 		String[] datar = data.split("//");
 		name = datar[0];
 		ship_class = datar[1];
@@ -77,6 +81,14 @@ public class ship implements Serializable{
 		//check orders (if disable etc)
 		//select a weapon fitting above parameters
 		//ship take damage from weapon
+		
+		//no weapons dont shot
+		if(ship_weapons.isEmpty()) {return;}
+		
+		//mock combat
+		//shot first weapon
+		e.take_damege(ship_weapons.get(0), e);
+		
 	}//end shot
 	
 	public void take_damege(weapon w,ship e)
@@ -89,6 +101,13 @@ public class ship implements Serializable{
 		//damage systems
 		//check weapon spacial efects
 		//check if disabled or destroyed 
+		
+		//mock combat
+		//damage hull for now
+		hull_hp--;
+		
+		//ship hull integrety byond critical, destroy it
+		if(hull_hp<=0) {destroyed=true;}
 		
 	}//end take_damege
 	
@@ -128,6 +147,50 @@ public class ship implements Serializable{
 		return ret;
 	}//end toString
 	
+	public boolean add_weapon(weapon w) {
+		if(!can_add_weapon(w)) {return false;}
+		ship_weapons.add(w);
+		return true;
+	}//end add_weapon
+	
+	public void remove_weapon(weapon w) {
+		ship_weapons.remove(w);
+	}//end add_weapon
+	
+	
+	//checks if weapon of a type can be add
+	public boolean can_add_weapon(weapon w) 
+	{
+		
+		//weapon count
+		int[] wc = weapon_sizes_count();
+		
+		//weapon to test size
+		String weapon_size = w.weapon_size;
+		
+		if(w.weapon_size.equals("small") && wc[0]<small_weapons) {return true;}
+		if(w.weapon_size.equals("medium") && wc[1]<medium_weapons) {return true;}
+		if(w.weapon_size.equals("large") && wc[2]<large_weapons) {return true;}
+
+		return false;
+	}//end can_add_weapon
+	
+	//returns an int array with 3 positions [small weapon count,medium  etc]
+	public int[] weapon_sizes_count() 
+	{
+		//weapon size counter
+		int small_weaponsc=0,medium_weaponsc=0,large_weaponsc=0;
+		//count weapon sizes already installed
+		for(weapon wt :ship_weapons) 
+		{
+			if(wt.weapon_size.equals("small")) {small_weaponsc++;}
+			if(wt.weapon_size.equals("medium")) {medium_weaponsc++;}
+			if(wt.weapon_size.equals("large")) {large_weaponsc++;}
+			
+			
+		}
+		return new int[] {small_weaponsc,medium_weaponsc,large_weaponsc};
+	}//end weapon_sizes_count
 	
 	
 }

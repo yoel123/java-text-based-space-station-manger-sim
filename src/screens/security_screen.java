@@ -48,10 +48,34 @@ public class security_screen extends gconsole_menu {
 		//get the ship id frop player
 		int shipid = ui.get_int("select a ship (0 to return)");
 	    if(shipid==0) {return;}//exit if 0
+	    if(shipid>p.sm.ships.size()) {view_ships();}
+	    
 		//get ship from security manger
 		ship s = p.sm.ships.get(shipid-1);
 		S.o(s.toString());
-		ui.get_string("\npress enter to continue...");
+		
+		S.o("\n-------------\n");
+		
+		//what would the player like todo with ship
+		int choice = mini_menu(
+				"return//"
+				+ "view/unequip weapons//"
+				+ "equip weapons//"
+				+ "fighter bomber bay//"
+				+ "upgrades//"
+				+ "sell//");
+		//unequip weapons
+		if(choice ==2) 
+		{
+			p.sm.ship_unequip_weapon(s,cio,ui);
+		}
+		//equip weapons
+		if(choice ==3) 
+		{
+			p.sm.ship_equip_weapon(s,cio,ui);
+		}
+		
+		//ui.get_string("\npress enter to continue...");
 	}//end view_ships
 
 	private void sell_ships() {

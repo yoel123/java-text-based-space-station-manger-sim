@@ -1,12 +1,13 @@
 package game_objects;
 
+import java.util.ArrayList;
 import java.util.Map.Entry;
 
 import db.upgrades_db;
+import helpers.C.GUIConsoleIO;
 import helpers.IndexableMap;
 import helpers.gyinput;
 import helpers.yvars;
-import helpers.C.GUIConsoleIO;
 
 public class upgrades_system {
 	
@@ -26,6 +27,10 @@ public class upgrades_system {
 		//get upgrades db
 		IndexableMap<String, String> udb = upgrades_db.db;
 		String[] upgrade;//single upgrade
+		
+		//arraylist to hold all the upgrade thats posible to buys
+		ArrayList<String> newdb = new ArrayList<String>();
+		
 		int i=1;//iteration counter
 		for (Entry<String, String> me : udb.entrySet()) 
 		{
@@ -35,8 +40,11 @@ public class upgrades_system {
 			if(game_manger.p.upgrades.indexOf(upgrade[0])==-1) 
 			{
 				cio.println(i+") "+upgrade[0]+" price "+upgrade[1]);
+				newdb.add(upgrade[0]);//add to posibe upgrades
+				i++;
 			}
-			i++;
+			
+			
 		}//end for
 		
 		//get the upgrade the player wants to buy
@@ -49,12 +57,14 @@ public class upgrades_system {
 			return messge;
 		}
 		
+		String upgrade_name = newdb.get(choice-1);
+		
 		//get the upgrade player chose
-		String[] upgrade_to_buy = udb.getValueAt(choice-1).split(upgrades_db.ychar);
+		String[] upgrade_to_buy = udb.get(upgrade_name).split(upgrades_db.ychar);
 		
 		//check if upgrade requirments meet
 		if(upgrade_to_buy.length>3 && !upgrade_requirement(upgrade_to_buy[3]))
-		{messge ="failed to meet upgrade requirments:\n"
+		{messge ="failed to meet "+upgrade_to_buy[0]+" upgrade requirments:\n"
 				+ upgrade_to_buy[3];return messge;}
 		
 		int cost = yvars.ystoint(upgrade_to_buy[1]);

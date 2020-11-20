@@ -3,6 +3,7 @@ package game_objects;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Map.Entry;
 
 import db.character_db;
 import db.ship_db;
@@ -11,7 +12,7 @@ import helpers.S;
 
 public class character implements Serializable{
 
-	String name,title;
+	public String name,title;
 	
 	public IndexableMap<String,Integer> stats;
 	
@@ -43,11 +44,11 @@ public class character implements Serializable{
 		random_name();
 		//st salary and rank
 		int rank = r.nextInt(10)+1;
-		int salary = (rank*500)+2500;
+		int salary = (rank*500)+1500;
 
 		stats.put("salery", salary);
 		stats.put("rank", rank);
-		stats.put("xp", 0);
+		stats.put("xp", (rank-1)*1000);
 		
 		stats.put("next_level_xp", rank*1000);
 		
@@ -62,8 +63,8 @@ public class character implements Serializable{
 		ArrayList<String> traits_db = new ArrayList<String>();
 		if(ytype.equals("chief engineer")) 
 		{traits_db = character_db.chif_engineer_traits;}
-		if(ytype.equals("")) {}
-		if(ytype.equals("")) {}
+		if(ytype.equals("constable")) {traits_db = character_db.constable_traits;}
+		if(ytype.equals("acountent")) {traits_db = character_db.acountent_traits;}
 		
 		int rank = stats.get("rank");
 		title = ytype;
@@ -106,6 +107,26 @@ public class character implements Serializable{
 	public String show_stats() 
 	{
 		String ret="";
+		
+		ret+="name: "+name+"\n";
+		ret+="title: "+title+"\n";
+		ret+="salery: "+stats.get("salery")+"\n";
+		ret+="rank: "+stats.get("rank")+"\n";
+		ret+="xp: "+stats.get("xp")+"\n";
+		ret+="next_level_xp: "+stats.get("next_level_xp")+"\n";
+		//traits
+		ret+="traits:";
+		int i=0;
+		for (Entry<String, String> me : traits.entrySet()) 
+		{
+			ret+=" ,"+me.getKey();
+			if(i==3) {i=0;ret+="\n";}//3 traits per row
+			i++;
+		}
+		ret+="\n";
+		
+		
+		
 		return ret;
 	}//show_stats
 	

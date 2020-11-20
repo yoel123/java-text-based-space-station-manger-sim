@@ -11,11 +11,46 @@ public class combat_screen extends gconsole_menu {
 		super(cio2);
 		
 		menu_items = new String[]{
-				"buy","sell","back"
+				"view ships","order ships","global order",
+				"next turn","retreat"
 				};
 		ui = new gyinput(cio2);
 
 	}
+	@Override
+	public void menu_user_input() {
+		
+		super.menu_user_input();
+		
+		if(next.equals("1") ) 
+		{
+			
+		}
+		
+		if(next.equals("2") ) 
+		{
+			
+		}
+		
+		if(next.equals("3") ) 
+		{
+			
+		}
+		
+		if(next.equals("4") ) 
+		{
+			
+		}
+		
+		if(next.equals("5") ) 
+		{
+			
+		}
+		
+		
+	}//end menu_user_input
+	
+	
 	
 	
 

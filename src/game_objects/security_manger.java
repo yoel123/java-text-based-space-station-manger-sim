@@ -3,7 +3,8 @@ package game_objects;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import helpers.S;
+import helpers.C.GUIConsoleIO;
+import helpers.gyinput;
 
 public class security_manger implements Serializable{
 	
@@ -186,6 +187,46 @@ public class security_manger implements Serializable{
 		p.credits -= s.cost;
 		return true;
 	}//end buy_ship
+	
+	public void ship_unequip_weapon(ship s,GUIConsoleIO cio,gyinput ui) 
+	{
+		//loop ship weapons
+		int i =1;
+		for(weapon wt:s.ship_weapons) 
+		{
+			cio.print(i+")"+wt.name+" size:"+wt.weapon_size+"\n");
+			i++;
+		}
+		int choice = ui.get_int("select weapon to remove( 0 to exit)");
+		if(choice==0 || choice>s.ship_weapons.size()) {return;}
+		//get weapon refrence
+		weapon w = s.ship_weapons.get(choice-1);
+		//remove from ship
+		s.ship_weapons.remove(choice-1);
+		//add to station weapons
+		for(weapon sw:weapons) {if(sw.name.equals(w.name)) {sw.amount++;}}
+		ship_unequip_weapon( s, cio, ui);
+	}//end ship_unequip_weapon
+	
+	public void ship_equip_weapon(ship s,GUIConsoleIO cio,gyinput ui) 
+	{
+		//loop station weapons
+		int i =1;
+		for(weapon sw:weapons) 
+		{
+			cio.print(i+")"+sw.name+" size:"+sw.weapon_size+" amount:"+sw.amount+"\n");
+			
+			i++;
+		}
+		int choice = ui.get_int("select weapon to remove( 0 to exit)");
+		if(choice==0 || choice>weapons.size()) {return;}
+		
+		//selected weapon refrence
+		weapon w = weapons.get(choice-1);
+		//if weapon add remove from station
+		if(s.add_weapon(w)) {w.amount--;}
+		ship_equip_weapon( s, cio, ui);
+	}//end ship_equip_weapon
 	
 
 }

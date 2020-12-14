@@ -70,7 +70,18 @@ public class gyinput {
 		  }  
 		  return true; 
 	}//end is_num
-	
-	
+
+	public static boolean is_int(String str)
+	{
+		try
+		{
+			int i = Integer.parseInt(str);
+		}
+		catch(NumberFormatException nfe)
+		{
+			return false;
+		}
+		return true;
+	}//end is_int
 	
 }
